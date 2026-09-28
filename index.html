@@ -9,6 +9,7 @@
       --primary: #1e3a8a;
       --primary-dark: #0f172a;
       --accent: #e11d48;
+      --female-accent: #be185d;
       --bg: #f8fafc;
       --card-bg: #ffffff;
       --text-main: #0f172a;
@@ -37,7 +38,7 @@
 
     header {
       text-align: center;
-      margin-bottom: 32px;
+      margin-bottom: 28px;
     }
 
     .logo-container {
@@ -64,11 +65,23 @@
       font-size: 14px;
     }
 
+    .section-title {
+      font-size: 19px;
+      font-weight: 800;
+      color: var(--primary-dark);
+      margin: 28px 0 14px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 8px;
+    }
+
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 16px;
-      margin-bottom: 36px;
+      margin-bottom: 24px;
     }
 
     .card {
@@ -92,6 +105,10 @@
       color: var(--accent);
       text-transform: uppercase;
       letter-spacing: 0.5px;
+    }
+
+    .card-category.female {
+      color: var(--female-accent);
     }
 
     .card-title {
@@ -139,6 +156,7 @@
       border: 1px solid var(--border);
       border-radius: 12px;
       padding: 24px;
+      margin-top: 36px;
     }
 
     .instructions h2 {
@@ -199,6 +217,8 @@
       <p class="subtitle">Wybierz zespół swojego dziecka i dodaj terminarz do telefonu.</p>
     </header>
 
+    <!-- SEKCJA MĘSKA -->
+    <div class="section-title">🏀 Drużyny męskie</div>
     <div class="grid">
       <!-- 3LM -->
       <div class="card">
@@ -283,11 +303,15 @@
           📅 Subskrybuj kalendarz
         </a>
       </div>
+    </div>
 
+    <!-- SEKCJA ŻEŃSKA -->
+    <div class="section-title">🏀 Drużyny żeńskie</div>
+    <div class="grid">
       <!-- U16K -->
       <div class="card">
         <div class="card-header">
-          <div class="card-category">Kadetki</div>
+          <div class="card-category female">Kadetki</div>
           <div class="card-title">U16 Kobiet</div>
           <div class="card-desc">Korona-Tarnovia Zakrzewo</div>
         </div>
@@ -299,7 +323,7 @@
       <!-- U14K -->
       <div class="card">
         <div class="card-header">
-          <div class="card-category">Młodziczki Starsze</div>
+          <div class="card-category female">Młodziczki Starsze</div>
           <div class="card-title">U14 Kobiet</div>
           <div class="card-desc">Korona-Tarnovia Zakrzewo</div>
         </div>
@@ -309,6 +333,7 @@
       </div>
     </div>
 
+    <!-- OPIS AUTOMATYCZNEJ SYNCHRONIZACJI -->
     <div class="instructions">
       <h2>Jak działa automatyczna synchronizacja meczów?</h2>
       <ul>
@@ -324,7 +349,7 @@
       </ul>
     </div>
 
-    <div class="version-tag">v 1.0.1</div>
+    <div class="version-tag">v 1.0.2</div>
   </div>
 
   <script>
