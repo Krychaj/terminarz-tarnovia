@@ -26,7 +26,7 @@
     body {
       background-color: var(--bg);
       color: var(--text-main);
-      padding: 28px 16px 48px 16px;
+      padding: 28px 16px 32px 16px;
       line-height: 1.5;
     }
 
@@ -176,6 +176,16 @@
     .instructions strong {
       color: var(--text-main);
     }
+
+    .version-tag {
+      text-align: right;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 18px;
+      opacity: 0.65;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      letter-spacing: 0.5px;
+    }
   </style>
 </head>
 <body>
@@ -301,6 +311,8 @@
         </li>
       </ul>
     </div>
+
+    <div class="version-tag">v 1.0</div>
   </div>
 
   <script>
@@ -313,7 +325,6 @@
         var urlIcs = "https://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/" + plik;
         window.location.href = "https://calendar.google.com/calendar/r?cid=" + encodeURIComponent(urlIcs);
       }
-      // Na urządzeniach iOS/macOS domyślny link webcal:// z href natychmiast wywołuje systemowy monit Apple Calendar
     }
   </script>
 </body>
