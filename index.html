@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terminarze Tarnovia Basket — Kalendarze</title>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --primary-dark: #0f172a;
+      --accent: #e11d48;
+      --accent-hover: #be123c;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --google-blue: #1a73e8;
+      --google-hover: #1557b0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      padding: 24px 16px 48px 16px;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .logo-container {
+      margin-bottom: 14px;
+    }
+
+    .club-logo {
+      width: 120px;
+      height: auto;
+      border-radius: 16px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+      display: inline-block;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #e0e7ff;
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--primary-dark);
+      margin-bottom: 8px;
+    }
+
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card-header {
+      margin-bottom: 16px;
+    }
+
+    .card-category {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-top: 2px;
+    }
+
+    .card-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.15s ease, opacity 0.15s ease;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-apple {
+      background-color: var(--primary);
+      color: #ffffff;
+    }
+
+    .btn-apple:hover {
+      background-color: var(--primary-dark);
+    }
+
+    .btn-google {
+      background-color: var(--google-blue);
+      color: #ffffff;
+    }
+
+    .btn-google:hover {
+      background-color: var(--google-hover);
+    }
+
+    .btn-copy {
+      background-color: #f1f5f9;
+      color: var(--text-main);
+      border: 1px solid var(--border);
+    }
+
+    .btn-copy:hover {
+      background-color: #e2e8f0;
+    }
+
+    .instructions {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    .instructions h2 {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--primary-dark);
+    }
+
+    .instructions ol {
+      padding-left: 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .instructions ol li {
+      margin-bottom: 8px;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #0f172a;
+      color: #ffffff;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+      z-index: 100;
+    }
+
+    .toast.show {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <div class="logo-container">
+        <img src="TARNOVIA_BASKET_LOGO_NEW_gora.png" alt="Tarnovia Basket Logo" class="club-logo">
+      </div>
+      <div class="badge">Oficjalne Terminarze WZKosz</div>
+      <h1>Tarnovia Basket</h1>
+      <p class="subtitle">Wybierz zespół swojego dziecka i dodaj terminarz do telefonu.</p>
+    </header>
+
+    <div class="grid">
+      <!-- 3LM -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-category">Seniorzy</div>
+          <div class="card-title">3 Liga Mężczyzn</div>
+          <div class="card-desc">Tarnovia Basket Tarnowo Podgórne</div>
+        </div>
+        <div class="btn-group">
+          <a class="btn btn-apple" href="https://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_3lm.ics">
+            🍏 Dodaj do iPhone (Apple)
+          </a>
+          <a class="btn btn-google" target="_blank" rel="noopener" href="https://calendar.google.com/calendar/r?cid=https://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_3lm.ics">
+            📅 Dodaj do Kalendarza Google
+          </a>
+          <button class="btn btn-copy" onclick="kopiujLink('https://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_3lm.ics')">
+            🔗 Kopiuj link HTTPS
+          </button>
+        </div>
+      </div>
+
+      <!-- U17M -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-category">Kadeci Starsi</div>
+          <div class="card-title">U17 Mężczyzn</div>
+          <div class="card-desc">G-EN- Gaz Energia Tarnovia</div>
+        </div>
+        <div class="btn-group">
+          <a class="btn btn-apple" href="https://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u17m.ics">
+            🍏 Dodaj do iPhone (Apple)
+          </a>
+          <a class="btn btn-google" target="_blank" rel="noopener" href="https://calendar.google.com/calendar/r?cid=https://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u17m.ics">
+            📅 Dodaj do Kalendarza Google
+          </a>
+          <button class="btn btn-copy" onclick="kopiujLink('https://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u17m.ics')">
+            🔗 Kopiuj link HTTPS
+          </button>
+        </div>
+      </div>
+
+      <!-- U15M -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-category">Kadeci</div>
+          <div class="card-title">U15 Mężczyzn</div>
+          <div class="card-desc">G-EN- Gaz Energia Tarnovia</div>
+        </div>
+        <div class="btn-group">
+          <a class="btn btn-apple" href="https://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u15m.ics">
+            🍏 Dodaj do iPhone (Apple)
+          </a>
+          <a class="btn btn-google" target="_blank" rel="noopener" href="https://calendar.google.com/calendar/r?cid=https://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u15m.ics">
+            📅 Dodaj do Kalendarza Google
+          </a>
+          <button class="btn btn-copy" onclick="kopiujLink('https://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u15m.ics')">
+            🔗 Kopiuj link HTTPS
+          </button>
+        </div>
+      </div>
+
+      <!-- U14M (I) -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-category">Młodzicy Starsi</div>
+          <div class="card-title">U14 Mężczyzn (I)</div>
+          <div class="card-desc">G-EN- Gaz Energia Tarnovia I</div>
+        </div>
+        <div class="btn-group">
+          <a class="btn btn-apple" href="https://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u14m_1.ics">
+            🍏 Dodaj do iPhone (Apple)
+          </a>
+          <a class="btn btn-google" target="_blank" rel="noopener" href="https://calendar.google.com/calendar/r?cid=https://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u14m_1.ics">
+            📅 Dodaj do Kalendarza Google
+          </a>
+          <button class="btn btn-copy" onclick="kopiujLink('https://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u14m_1.ics')">
+            🔗 Kopiuj link HTTPS
+          </button>
+        </div>
+      </div>
+
+      <!-- U14M (II) -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-category">Młodzicy Starsi</div>
+          <div class="card-title">U14 Mężczyzn (II)</div>
+          <div class="card-desc">G-EN- Gaz Energia Tarnovia II</div>
+        </div>
+        <div class="btn-group">
+          <a class="btn btn-apple" href="https://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u14m_2.ics">
+            🍏 Dodaj do iPhone (Apple)
+          </a>
+          <a class="btn btn-google" target="_blank" rel="noopener" href="https://calendar.google.com/calendar/r?cid=https://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u14m_2.ics">
+            📅 Dodaj do Kalendarza Google
+          </a>
+          <button class="btn btn-copy" onclick="kopiujLink('https://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u14m_2.ics')">
+            🔗 Kopiuj link HTTPS
+          </button>
+        </div>
+      </div>
+
+      <!-- U13M -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-category">Młodzicy</div>
+          <div class="card-title">U13 Mężczyzn</div>
+          <div class="card-desc">G-EN- Gaz Energia Tarnovia</div>
+        </div>
+        <div class="btn-group">
+          <a class="btn btn-apple" href="https://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u13m.ics">
+            🍏 Dodaj do iPhone (Apple)
+          </a>
+          <a class="btn btn-google" target="_blank" rel="noopener" href="https://calendar.google.com/calendar/r?cid=https://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u13m.ics">
+            📅 Dodaj do Kalendarza Google
+          </a>
+          <button class="btn btn-copy" onclick="kopiujLink('https://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u13m.ics')">
+            🔗 Kopiuj link HTTPS
+          </button>
+        </div>
+      </div>
+
+      <!-- U14K -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-category">Młodziczki Starsze</div>
+          <div class="card-title">U14 Kobiet</div>
+          <div class="card-desc">Korona-Tarnovia Zakrzewo</div>
+        </div>
+        <div class="btn-group">
+          <a class="btn btn-apple" href="https://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u14k.ics">
+            🍏 Dodaj do iPhone (Apple)
+          </a>
+          <a class="btn btn-google" target="_blank" rel="noopener" href="https://calendar.google.com/calendar/r?cid=https://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u14k.ics">
+            📅 Dodaj do Kalendarza Google
+          </a>
+          <button class="btn btn-copy" onclick="kopiujLink('https://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u14k.ics')">
+            🔗 Kopiuj link HTTPS
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="instructions">
+      <h2>Jak działa automatyczna subskrypcja?</h2>
+      <ol>
+        <li><strong>iPhone / iPad:</strong> Kliknij granatowy przycisk z logo Apple w przeglądarce Safari. System zapyta, czy chcesz dodać subskrypcję kalendarza. Kliknij <em>Subskrybuj</em>.</li>
+        <li><strong>Telefony z systemem Android / Komputery:</strong> Kliknij niebieski przycisk <em>Dodaj do Kalendarza Google</em> i zatwierdź dodanie terminarza do swojego konta Google.</li>
+        <li><strong>Ręczna konfiguracja (Outlook, inne aplikacje):</strong> Kliknij <em>Kopiuj link HTTPS</em> i wklej go w swojej aplikacji w opcji <em>Dodaj z adresu internetowego / Subskrybuj kalendarz</em>.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">Skopiowano link do schowka!</div>
+
+  <script>
+    function kopiujLink(url) {
+      navigator.clipboard.writeText(url).then(function() {
+        var toast = document.getElementById("toast");
+        toast.className = "toast show";
+        setTimeout(function() {
+          toast.className = "toast";
+        }, 2500);
+      });
+    }
+  </script>
+</body>
+</html>
