@@ -197,7 +197,7 @@
           <div class="card-title">3 Liga Mężczyzn</div>
           <div class="card-desc">Tarnovia Basket Tarnowo Podgórne</div>
         </div>
-        <a class="btn" href="https://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_3lm.ics">
+        <a class="btn" href="webcal://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_3lm.ics" onclick="subskrybuj(event, 'tarnovia_3lm.ics')">
           📅 Subskrybuj kalendarz
         </a>
       </div>
@@ -209,7 +209,7 @@
           <div class="card-title">U17 Mężczyzn</div>
           <div class="card-desc">G-EN- Gaz Energia Tarnovia</div>
         </div>
-        <a class="btn" href="https://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u17m.ics">
+        <a class="btn" href="webcal://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u17m.ics" onclick="subskrybuj(event, 'tarnovia_u17m.ics')">
           📅 Subskrybuj kalendarz
         </a>
       </div>
@@ -221,7 +221,7 @@
           <div class="card-title">U15 Mężczyzn</div>
           <div class="card-desc">G-EN- Gaz Energia Tarnovia</div>
         </div>
-        <a class="btn" href="https://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u15m.ics">
+        <a class="btn" href="webcal://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u15m.ics" onclick="subskrybuj(event, 'tarnovia_u15m.ics')">
           📅 Subskrybuj kalendarz
         </a>
       </div>
@@ -233,7 +233,7 @@
           <div class="card-title">U14 Mężczyzn (I)</div>
           <div class="card-desc">G-EN- Gaz Energia Tarnovia I</div>
         </div>
-        <a class="btn" href="https://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u14m_1.ics">
+        <a class="btn" href="webcal://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u14m_1.ics" onclick="subskrybuj(event, 'tarnovia_u14m_1.ics')">
           📅 Subskrybuj kalendarz
         </a>
       </div>
@@ -245,7 +245,7 @@
           <div class="card-title">U14 Mężczyzn (II)</div>
           <div class="card-desc">G-EN- Gaz Energia Tarnovia II</div>
         </div>
-        <a class="btn" href="https://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u14m_2.ics">
+        <a class="btn" href="webcal://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u14m_2.ics" onclick="subskrybuj(event, 'tarnovia_u14m_2.ics')">
           📅 Subskrybuj kalendarz
         </a>
       </div>
@@ -257,7 +257,7 @@
           <div class="card-title">U13 Mężczyzn</div>
           <div class="card-desc">G-EN- Gaz Energia Tarnovia</div>
         </div>
-        <a class="btn" href="https://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u13m.ics">
+        <a class="btn" href="webcal://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u13m.ics" onclick="subskrybuj(event, 'tarnovia_u13m.ics')">
           📅 Subskrybuj kalendarz
         </a>
       </div>
@@ -269,7 +269,7 @@
           <div class="card-title">U16 Kobiet</div>
           <div class="card-desc">Korona-Tarnovia Zakrzewo</div>
         </div>
-        <a class="btn" href="https://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u16k.ics">
+        <a class="btn" href="webcal://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u16k.ics" onclick="subskrybuj(event, 'tarnovia_u16k.ics')">
           📅 Subskrybuj kalendarz
         </a>
       </div>
@@ -281,7 +281,7 @@
           <div class="card-title">U14 Kobiet</div>
           <div class="card-desc">Korona-Tarnovia Zakrzewo</div>
         </div>
-        <a class="btn" href="https://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u14k.ics">
+        <a class="btn" href="webcal://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u14k.ics" onclick="subskrybuj(event, 'tarnovia_u14k.ics')">
           📅 Subskrybuj kalendarz
         </a>
       </div>
@@ -303,5 +303,18 @@
     </div>
   </div>
 
+  <script>
+    function subskrybuj(e, plik) {
+      var ua = navigator.userAgent || navigator.vendor || window.opera;
+      var isAndroid = /android/i.test(ua);
+
+      if (isAndroid) {
+        e.preventDefault();
+        var urlIcs = "https://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/" + plik;
+        window.location.href = "https://calendar.google.com/calendar/r?cid=" + encodeURIComponent(urlIcs);
+      }
+      // Na urządzeniach iOS/macOS domyślny link webcal:// z href natychmiast wywołuje systemowy monit Apple Calendar
+    }
+  </script>
 </body>
 </html>
