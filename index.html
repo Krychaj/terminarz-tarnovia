@@ -635,18 +635,18 @@
     <!-- STOPKA: KLIKALNY NUMER WERSJI Z HISTORIĄ -->
     <div class="changelog-wrapper">
       <details class="changelog-details" id="changelogDetails">
-        <summary class="changelog-summary">v 1.0.4 v2</summary>
+        <summary class="changelog-summary">1.0.4 v3</summary>
         <div class="changelog-content">
           <div class="changelog-title">Historia wersji</div>
           <div class="changelog-item">
-            <div class="changelog-ver">v 1.0.4 v2 (Aktualna)</div>
+            <div class="changelog-ver">1.0.4 v3 (Aktualna)</div>
             <div class="changelog-desc">
-              • Oznaczenie wersji w formacie "v 1.0.4 v2".<br>
-              • Zwiększona czułość parsera na pole "Hala:" w opisie meczu.
+              • Poprawka wyciągania pełnego adresu hali z pola Description (obsługa łamanych linii i kodów pocztowych).<br>
+              • Zmiana formatu oznaczenia wersji na czyste "1.0.4 v3".
             </div>
           </div>
           <div class="changelog-item">
-            <div class="changelog-ver">v 1.0.4</div>
+            <div class="changelog-ver">1.0.4</div>
             <div class="changelog-desc">
               • Czysty podgląd meczu (usunięto pinezkę z miastem z kafelka).<br>
               • Kliknięcie w cały kafelek meczu uruchamia nawigację GPS pod dokładny adres pobrany z pola Description po "Hala:".<br>
@@ -654,7 +654,7 @@
             </div>
           </div>
           <div class="changelog-item">
-            <div class="changelog-ver">v 1.0.3</div>
+            <div class="changelog-ver">1.0.3</div>
             <div class="changelog-desc">
               • Statusy dostępności (aktywne / oczekujące na godziny).<br>
               • Data i godzina ostatniej aktualizacji pliku kalendarza.<br>
@@ -664,15 +664,15 @@
             </div>
           </div>
           <div class="changelog-item">
-            <div class="changelog-ver">v 1.0.2</div>
+            <div class="changelog-ver">1.0.2</div>
             <div class="changelog-desc">• Podział na ligi męskie i żeńskie.</div>
           </div>
           <div class="changelog-item">
-            <div class="changelog-ver">v 1.0.1</div>
+            <div class="changelog-ver">1.0.1</div>
             <div class="changelog-desc">• Dodanie kategorii U12M.</div>
           </div>
           <div class="changelog-item">
-            <div class="changelog-ver">v 1.0.0</div>
+            <div class="changelog-ver">1.0.0</div>
             <div class="changelog-desc">• Pierwsze publiczne wydanie landing page.</div>
           </div>
         </div>
@@ -737,18 +737,29 @@
       return summary;
     }
 
-    // Wyciąganie pełnego adresu hali z pola DESCRIPTION po "Hala:"
+    // Pobiera PEŁNY blok adresu po słowie "Hala:"
     function wyciagnijAdresHali(description, location) {
       if (description) {
-        var rawText = odkodujICS(description);
+        var raw = odkodujICS(description);
+        var lower = raw.toLowerCase();
+        var pos = lower.indexOf('hala:');
+        
+        if (pos !== -1) {
+          var tekstPoHala = raw.substring(pos + 5).trim();
+          
+          // Szukamy początku kolejnej sekcji w opisie (np. Sędziowie:, STATUS:, Organizator:, Mecz:)
+          var endRegex = /\n\s*(?:sędziowie|sedziowie|status|organizator|kolejka|mecz):/i;
+          var endMatch = tekstPoHala.match(endRegex);
+          var adresBlok = endMatch ? tekstPoHala.substring(0, endMatch.index) : tekstPoHala;
 
-        // Szukamy wystąpienia "Hala:" bez względu na wielkość liter
-        var idx = rawText.toLowerCase().indexOf('hala:');
-        if (idx !== -1) {
-          var odHala = rawText.substring(idx + 5).trim();
-          var lines = odHala.split(/[\r\n]+/);
-          if (lines.length > 0 && lines[0].trim().length > 3) {
-            return lines[0].trim();
+          // Zamieniamy podziały wierszy wewnątrz adresu na przecinki ze spacją
+          var pelnyAdres = adresBlok.split(/[\r\n]+/)
+            .map(function(s) { return s.trim(); })
+            .filter(function(s) { return s.length > 0; })
+            .join(', ');
+
+          if (pelnyAdres.length > 3) {
+            return pelnyAdres;
           }
         }
       }
@@ -757,7 +768,7 @@
       if (locClean && locClean.length > 2) {
         return locClean;
       }
-      return 'OSiR Tarnowo Podgórne, Nowa 60';
+      return 'Tarnowo Podgórne';
     }
 
     function zaladujDaneKalendarzy() {
@@ -865,7 +876,7 @@
               matchDatetime.textContent = dayName + ', ' + day + '.' + month + ' o ' + hours + ':' + minutes;
               matchOpponent.textContent = wyczyscNazwe(odkodujICS(mecz.summary));
 
-              // Odczytujemy dokładny adres z pola "Hala:" w opisie meczu
+              // Odczytujemy pełny adres hali z pola Description
               var dokladnyAdresHali = wyciagnijAdresHali(mecz.description, mecz.location);
 
               // Wykrywanie Dom / Wyjazd
@@ -885,7 +896,7 @@
                 venueBadge.className = "match-venue-badge";
               }
 
-              // Bezpośredni link nawigacji pod dokładny adres
+              // Bezpośredni link nawigacji pod pełny adres hali
               matchBox.href = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(dokladnyAdresHali);
               matchBox.style.display = 'block';
             }
