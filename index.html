@@ -225,6 +225,13 @@
       line-height: 1.35;
     }
 
+    .next-match-hall {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      margin-top: 3px;
+      line-height: 1.3;
+    }
+
     .next-match-nav-hint {
       margin-top: 6px;
       font-size: 11px;
@@ -423,6 +430,7 @@
             </div>
             <div class="next-match-datetime">Data i godzina</div>
             <div class="next-match-opponent">vs Rywal</div>
+            <div class="next-match-hall">Miejsce meczu</div>
             <div class="next-match-nav-hint">📍 Nawiguj do hali &rarr;</div>
           </a>
         </div>
@@ -448,6 +456,7 @@
             </div>
             <div class="next-match-datetime">Data i godzina</div>
             <div class="next-match-opponent">vs Rywal</div>
+            <div class="next-match-hall">Miejsce meczu</div>
             <div class="next-match-nav-hint">📍 Nawiguj do hali &rarr;</div>
           </a>
         </div>
@@ -473,6 +482,7 @@
             </div>
             <div class="next-match-datetime">Data i godzina</div>
             <div class="next-match-opponent">vs Rywal</div>
+            <div class="next-match-hall">Miejsce meczu</div>
             <div class="next-match-nav-hint">📍 Nawiguj do hali &rarr;</div>
           </a>
         </div>
@@ -498,6 +508,7 @@
             </div>
             <div class="next-match-datetime">Data i godzina</div>
             <div class="next-match-opponent">vs Rywal</div>
+            <div class="next-match-hall">Miejsce meczu</div>
             <div class="next-match-nav-hint">📍 Nawiguj do hali &rarr;</div>
           </a>
         </div>
@@ -523,6 +534,7 @@
             </div>
             <div class="next-match-datetime">Data i godzina</div>
             <div class="next-match-opponent">vs Rywal</div>
+            <div class="next-match-hall">Miejsce meczu</div>
             <div class="next-match-nav-hint">📍 Nawiguj do hali &rarr;</div>
           </a>
         </div>
@@ -548,6 +560,7 @@
             </div>
             <div class="next-match-datetime">Data i godzina</div>
             <div class="next-match-opponent">vs Rywal</div>
+            <div class="next-match-hall">Miejsce meczu</div>
             <div class="next-match-nav-hint">📍 Nawiguj do hali &rarr;</div>
           </a>
         </div>
@@ -607,6 +620,7 @@
             </div>
             <div class="next-match-datetime">Data i godzina</div>
             <div class="next-match-opponent">vs Rywal</div>
+            <div class="next-match-hall">Miejsce meczu</div>
             <div class="next-match-nav-hint">📍 Nawiguj do hali &rarr;</div>
           </a>
         </div>
@@ -645,7 +659,8 @@
               • Data ostatniej aktualizacji kalendarza przy statusie.<br>
               • Przejrzysta nazwa rywala (usunięcie prefixu meczu).<br>
               • Oznaczenie meczu Dom (🏠) / Wyjazd (🚗).<br>
-              • Klikalny kafelek meczu z bezpośrednią nawigacją GPS do hali.<br>
+              • Wyświetlenie adresu hali na kafelku meczu.<br>
+              • Precyzyjna nawigacja GPS prosto pod adres hali (zamiast samego miasta).<br>
               • Dyskretny changelog ukryty pod numerem wersji.
             </div>
           </div>
@@ -688,6 +703,11 @@
       }
     });
 
+    // Unfolding linii iCalendar (RFC 5545): linie zaczynające się spacją/tabem są kontynuacją poprzedniej
+    function unfoldICS(text) {
+      return text.replace(/\r\n[ \t]|\r[ \t]|\n[ \t]/g, '');
+    }
+
     // Parsowanie daty z formatu ICS
     function parsujDateICS(str) {
       if (!str) return null;
@@ -704,7 +724,13 @@
       return new Date(y, m, d, h, min);
     }
 
-    // Czyszczenie nazwy rywala (usuwanie np. "Mecz 3LM vs", "Mecz U13M vs")
+    // Oczyszczanie wartości z formatu ICS (usuwanie ukośników ucieczki)
+    function odkodujICS(val) {
+      if (!val) return '';
+      return val.replace(/\\n/g, ' ').replace(/\\,/g, ',').replace(/\\;/g, ';').replace(/\\\\/g, '\\').trim();
+    }
+
+    // Czyszczenie nazwy rywala
     function wyczyscNazwe(summary) {
       if (!summary) return 'Mecz ligowy';
       var idx = summary.toLowerCase().indexOf(' vs ');
@@ -714,7 +740,16 @@
       return summary;
     }
 
-    // Pobieranie i prezentacja danych
+    // Budowanie optymalnego linku nawigacji do hali
+    function zbudujLinkNawigacji(locationRaw) {
+      var loc = odkodujICS(locationRaw);
+      if (!loc) {
+        return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('Tarnowo Podgórne Hala Sportowa');
+      }
+      // Pełny query z uniwersalnym parametrem search API dla Google Maps / Apple Maps
+      return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(loc);
+    }
+
     function zaladujDaneKalendarzy() {
       var cards = document.querySelectorAll('.card[data-ics]');
       var dniTygodnia = ['Nd', 'Pn', 'Wt', 'Śr', 'Cz', 'Pt', 'Sb'];
@@ -728,12 +763,12 @@
         var venueBadge = card.querySelector('.match-venue-badge');
         var matchDatetime = card.querySelector('.next-match-datetime');
         var matchOpponent = card.querySelector('.next-match-opponent');
+        var matchHall = card.querySelector('.next-match-hall');
 
         fetch(GIST_BASE + icsFile + '?t=' + new Date().getTime())
           .then(function(res) {
             if (!res.ok) throw new Error('Brak pliku');
 
-            // Odczyt daty modyfikacji pliku z nagłówka HTTP (jeśli dostępny)
             var lastModHeader = res.headers.get('Last-Modified');
             if (lastModHeader && syncTimeEl) {
               var lm = new Date(lastModHeader);
@@ -747,8 +782,9 @@
 
             return res.text();
           })
-          .then(function(text) {
-            var lines = text.split(/\r\n|\n|\r/);
+          .then(function(rawText) {
+            var unfolded = unfoldICS(rawText);
+            var lines = unfolded.split(/\r\n|\n|\r/);
             var events = [];
             var currentEvent = null;
             var dtstampDate = null;
@@ -765,7 +801,7 @@
                 if (line.startsWith('SUMMARY:')) {
                   currentEvent.summary = line.substring(8);
                 } else if (line.startsWith('LOCATION:')) {
-                  currentEvent.location = line.substring(9).replace(/\\,/g, ',');
+                  currentEvent.location = line.substring(9);
                 } else if (line.startsWith('DTSTART')) {
                   var parts = line.split(':');
                   if (parts.length > 1) {
@@ -779,7 +815,6 @@
               }
             });
 
-            // Fallback: jeśli nagłówek Last-Modified był pusty, bierzemy DTSTAMP z pliku
             if (dtstampDate && syncTimeEl && !syncTimeEl.textContent) {
               var sDay = ('0' + dtstampDate.getDate()).slice(-2);
               var sMonth = ('0' + (dtstampDate.getMonth() + 1)).slice(-2);
@@ -817,11 +852,20 @@
               var minutes = ('0' + d.getMinutes()).slice(-2);
 
               matchDatetime.textContent = dayName + ', ' + day + '.' + month + ' o ' + hours + ':' + minutes;
-              matchOpponent.textContent = wyczyscNazwe(mecz.summary);
+              matchOpponent.textContent = wyczyscNazwe(odkodujICS(mecz.summary));
 
-              // Wykrywanie Dom / Wyjazd
-              var loc = (mecz.location || '').toLowerCase();
-              var isHome = loc.indexOf('tarnowo') !== -1 || loc.indexOf('zakrzewo') !== -1 || loc.indexOf('ogrodowa') !== -1;
+              // Prezentacja nazwy hali i adresu
+              var pelnaLokalizacja = odkodujICS(mecz.location);
+              if (pelnaLokalizacja) {
+                matchHall.textContent = '📍 ' + pelnaLokalizacja;
+                matchHall.style.display = 'block';
+              } else {
+                matchHall.style.display = 'none';
+              }
+
+              // Dom / Wyjazd
+              var locLower = pelnaLokalizacja.toLowerCase();
+              var isHome = locLower.indexOf('tarnowo') !== -1 || locLower.indexOf('zakrzewo') !== -1 || locLower.indexOf('ogrodowa') !== -1;
 
               if (isHome) {
                 venueBadge.textContent = "🏠 Dom";
@@ -831,9 +875,8 @@
                 venueBadge.className = "match-venue-badge";
               }
 
-              // Adres do nawigacji GPS
-              var destination = mecz.location || 'Tarnowo Podgórne';
-              matchBox.href = 'https://maps.google.com/?q=' + encodeURIComponent(destination);
+              // Precyzyjny link nawigacji prosto do obiektu
+              matchBox.href = zbudujLinkNawigacji(mecz.location);
               matchBox.style.display = 'block';
             }
           })
