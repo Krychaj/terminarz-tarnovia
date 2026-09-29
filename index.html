@@ -15,6 +15,10 @@
       --text-main: #0f172a;
       --text-muted: #64748b;
       --border: #e2e8f0;
+      --status-active-bg: #dcfce7;
+      --status-active-text: #166534;
+      --status-pending-bg: #fef9c3;
+      --status-pending-text: #854d0e;
     }
 
     * {
@@ -96,7 +100,7 @@
     }
 
     .card-header {
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
     .card-category {
@@ -124,6 +128,27 @@
       margin-top: 4px;
     }
 
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 6px;
+      margin-top: 10px;
+    }
+
+    .status-active {
+      background-color: var(--status-active-bg);
+      color: var(--status-active-text);
+    }
+
+    .status-pending {
+      background-color: var(--status-pending-bg);
+      color: var(--status-pending-text);
+    }
+
     .btn {
       display: flex;
       align-items: center;
@@ -140,6 +165,7 @@
       cursor: pointer;
       border: none;
       box-shadow: 0 2px 4px rgba(30, 58, 138, 0.15);
+      margin-top: 14px;
     }
 
     .btn:hover {
@@ -226,6 +252,7 @@
           <div class="card-category">Seniorzy</div>
           <div class="card-title">3 Liga Mężczyzn</div>
           <div class="card-desc">Tarnovia Basket Tarnowo Podgórne</div>
+          <div class="status-badge status-active">🟢 Terminarz aktywny</div>
         </div>
         <a class="btn" href="webcal://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_3lm.ics" onclick="subskrybuj(event, 'tarnovia_3lm.ics')">
           📅 Subskrybuj kalendarz
@@ -238,6 +265,7 @@
           <div class="card-category">Kadeci Starsi</div>
           <div class="card-title">U17 Mężczyzn</div>
           <div class="card-desc">G-EN- Gaz Energia Tarnovia</div>
+          <div class="status-badge status-active">🟢 Terminarz aktywny</div>
         </div>
         <a class="btn" href="webcal://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u17m.ics" onclick="subskrybuj(event, 'tarnovia_u17m.ics')">
           📅 Subskrybuj kalendarz
@@ -250,6 +278,7 @@
           <div class="card-category">Kadeci</div>
           <div class="card-title">U15 Mężczyzn</div>
           <div class="card-desc">G-EN- Gaz Energia Tarnovia</div>
+          <div class="status-badge status-active">🟢 Terminarz aktywny</div>
         </div>
         <a class="btn" href="webcal://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u15m.ics" onclick="subskrybuj(event, 'tarnovia_u15m.ics')">
           📅 Subskrybuj kalendarz
@@ -262,6 +291,7 @@
           <div class="card-category">Młodzicy Starsi</div>
           <div class="card-title">U14 Mężczyzn (I)</div>
           <div class="card-desc">G-EN- Gaz Energia Tarnovia I</div>
+          <div class="status-badge status-active">🟢 Terminarz aktywny</div>
         </div>
         <a class="btn" href="webcal://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u14m_1.ics" onclick="subskrybuj(event, 'tarnovia_u14m_1.ics')">
           📅 Subskrybuj kalendarz
@@ -274,6 +304,7 @@
           <div class="card-category">Młodzicy Starsi</div>
           <div class="card-title">U14 Mężczyzn (II)</div>
           <div class="card-desc">G-EN- Gaz Energia Tarnovia II</div>
+          <div class="status-badge status-active">🟢 Terminarz aktywny</div>
         </div>
         <a class="btn" href="webcal://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u14m_2.ics" onclick="subskrybuj(event, 'tarnovia_u14m_2.ics')">
           📅 Subskrybuj kalendarz
@@ -286,6 +317,7 @@
           <div class="card-category">Młodzicy</div>
           <div class="card-title">U13 Mężczyzn</div>
           <div class="card-desc">G-EN- Gaz Energia Tarnovia</div>
+          <div class="status-badge status-active">🟢 Terminarz aktywny</div>
         </div>
         <a class="btn" href="webcal://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u13m.ics" onclick="subskrybuj(event, 'tarnovia_u13m.ics')">
           📅 Subskrybuj kalendarz
@@ -298,6 +330,7 @@
           <div class="card-category">Żacy</div>
           <div class="card-title">U12 Mężczyzn</div>
           <div class="card-desc">G-EN- Gaz Energia Tarnovia</div>
+          <div class="status-badge status-pending">🟡 Oczekuje na godziny WZKosz</div>
         </div>
         <a class="btn" href="webcal://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u12m.ics" onclick="subskrybuj(event, 'tarnovia_u12m.ics')">
           📅 Subskrybuj kalendarz
@@ -314,6 +347,7 @@
           <div class="card-category female">Kadetki</div>
           <div class="card-title">U16 Kobiet</div>
           <div class="card-desc">Korona-Tarnovia Zakrzewo</div>
+          <div class="status-badge status-pending">🟡 Oczekuje na godziny WZKosz</div>
         </div>
         <a class="btn" href="webcal://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u16k.ics" onclick="subskrybuj(event, 'tarnovia_u16k.ics')">
           📅 Subskrybuj kalendarz
@@ -326,6 +360,7 @@
           <div class="card-category female">Młodziczki Starsze</div>
           <div class="card-title">U14 Kobiet</div>
           <div class="card-desc">Korona-Tarnovia Zakrzewo</div>
+          <div class="status-badge status-active">🟢 Terminarz aktywny</div>
         </div>
         <a class="btn" href="webcal://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u14k.ics" onclick="subskrybuj(event, 'tarnovia_u14k.ics')">
           📅 Subskrybuj kalendarz
@@ -349,7 +384,7 @@
       </ul>
     </div>
 
-    <div class="version-tag">v 1.0.2</div>
+    <div class="version-tag">v 1.0.3</div>
   </div>
 
   <script>
