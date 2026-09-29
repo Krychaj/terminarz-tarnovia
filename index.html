@@ -128,15 +128,22 @@
       margin-top: 4px;
     }
 
+    .status-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
     .status-badge {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      font-size: 11.5px;
+      gap: 5px;
+      font-size: 11px;
       font-weight: 600;
       padding: 3px 8px;
       border-radius: 6px;
-      margin-top: 8px;
     }
 
     .status-active {
@@ -149,14 +156,38 @@
       color: var(--status-pending-text);
     }
 
-    /* Najbliższy mecz */
+    .sync-time {
+      font-size: 11px;
+      color: var(--text-muted);
+      opacity: 0.75;
+      font-family: ui-monospace, monospace;
+    }
+
+    /* Najbliższy mecz jako klikalny kafelek z nawigacją */
     .next-match-box {
       margin-top: 12px;
       background-color: #f1f5f9;
       border-left: 3px solid var(--primary);
-      padding: 8px 10px;
-      border-radius: 4px;
+      padding: 10px 12px;
+      border-radius: 6px;
       font-size: 12px;
+      cursor: pointer;
+      transition: background-color 0.15s ease, transform 0.1s ease;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .next-match-box:hover {
+      background-color: #e2e8f0;
+      transform: translateY(-1px);
+    }
+
+    .next-match-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
     }
 
     .next-match-label {
@@ -165,13 +196,43 @@
       text-transform: uppercase;
       font-size: 10px;
       letter-spacing: 0.5px;
+    }
+
+    .match-venue-badge {
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 4px;
+      background: #e2e8f0;
+      color: var(--primary-dark);
+    }
+
+    .match-venue-badge.home {
+      background: #dbeafe;
+      color: var(--primary);
+    }
+
+    .next-match-datetime {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--primary-dark);
       margin-bottom: 2px;
     }
 
-    .next-match-info {
-      color: var(--primary-dark);
+    .next-match-opponent {
+      color: var(--text-main);
       font-weight: 600;
       line-height: 1.35;
+    }
+
+    .next-match-nav-hint {
+      margin-top: 6px;
+      font-size: 11px;
+      color: var(--primary);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
 
     .btn {
@@ -351,11 +412,19 @@
           <div class="card-category">Seniorzy</div>
           <div class="card-title">3 Liga Mężczyzn</div>
           <div class="card-desc">Tarnovia Basket Tarnowo Podgórne</div>
-          <div class="status-badge status-active">🟢 Terminarz aktywny</div>
-          <div class="next-match-box" style="display:none;">
-            <div class="next-match-label">Najbliższy mecz</div>
-            <div class="next-match-info">Ładowanie...</div>
+          <div class="status-row">
+            <div class="status-badge status-active">🟢 Terminarz aktywny</div>
+            <div class="sync-time" style="display:none;"></div>
           </div>
+          <a class="next-match-box" style="display:none;" target="_blank" rel="noopener">
+            <div class="next-match-header">
+              <div class="next-match-label">Najbliższy mecz</div>
+              <div class="match-venue-badge">Dom/Wyjazd</div>
+            </div>
+            <div class="next-match-datetime">Data i godzina</div>
+            <div class="next-match-opponent">vs Rywal</div>
+            <div class="next-match-nav-hint">📍 Nawiguj do hali &rarr;</div>
+          </a>
         </div>
         <a class="btn" href="webcal://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_3lm.ics" onclick="subskrybuj(event, 'tarnovia_3lm.ics')">
           📅 Subskrybuj kalendarz
@@ -368,11 +437,19 @@
           <div class="card-category">Kadeci Starsi</div>
           <div class="card-title">U17 Mężczyzn</div>
           <div class="card-desc">G-EN- Gaz Energia Tarnovia</div>
-          <div class="status-badge status-active">🟢 Terminarz aktywny</div>
-          <div class="next-match-box" style="display:none;">
-            <div class="next-match-label">Najbliższy mecz</div>
-            <div class="next-match-info">Ładowanie...</div>
+          <div class="status-row">
+            <div class="status-badge status-active">🟢 Terminarz aktywny</div>
+            <div class="sync-time" style="display:none;"></div>
           </div>
+          <a class="next-match-box" style="display:none;" target="_blank" rel="noopener">
+            <div class="next-match-header">
+              <div class="next-match-label">Najbliższy mecz</div>
+              <div class="match-venue-badge">Dom/Wyjazd</div>
+            </div>
+            <div class="next-match-datetime">Data i godzina</div>
+            <div class="next-match-opponent">vs Rywal</div>
+            <div class="next-match-nav-hint">📍 Nawiguj do hali &rarr;</div>
+          </a>
         </div>
         <a class="btn" href="webcal://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u17m.ics" onclick="subskrybuj(event, 'tarnovia_u17m.ics')">
           📅 Subskrybuj kalendarz
@@ -385,11 +462,19 @@
           <div class="card-category">Kadeci</div>
           <div class="card-title">U15 Mężczyzn</div>
           <div class="card-desc">G-EN- Gaz Energia Tarnovia</div>
-          <div class="status-badge status-active">🟢 Terminarz aktywny</div>
-          <div class="next-match-box" style="display:none;">
-            <div class="next-match-label">Najbliższy mecz</div>
-            <div class="next-match-info">Ładowanie...</div>
+          <div class="status-row">
+            <div class="status-badge status-active">🟢 Terminarz aktywny</div>
+            <div class="sync-time" style="display:none;"></div>
           </div>
+          <a class="next-match-box" style="display:none;" target="_blank" rel="noopener">
+            <div class="next-match-header">
+              <div class="next-match-label">Najbliższy mecz</div>
+              <div class="match-venue-badge">Dom/Wyjazd</div>
+            </div>
+            <div class="next-match-datetime">Data i godzina</div>
+            <div class="next-match-opponent">vs Rywal</div>
+            <div class="next-match-nav-hint">📍 Nawiguj do hali &rarr;</div>
+          </a>
         </div>
         <a class="btn" href="webcal://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u15m.ics" onclick="subskrybuj(event, 'tarnovia_u15m.ics')">
           📅 Subskrybuj kalendarz
@@ -402,11 +487,19 @@
           <div class="card-category">Młodzicy Starsi</div>
           <div class="card-title">U14 Mężczyzn (I)</div>
           <div class="card-desc">G-EN- Gaz Energia Tarnovia I</div>
-          <div class="status-badge status-active">🟢 Terminarz aktywny</div>
-          <div class="next-match-box" style="display:none;">
-            <div class="next-match-label">Najbliższy mecz</div>
-            <div class="next-match-info">Ładowanie...</div>
+          <div class="status-row">
+            <div class="status-badge status-active">🟢 Terminarz aktywny</div>
+            <div class="sync-time" style="display:none;"></div>
           </div>
+          <a class="next-match-box" style="display:none;" target="_blank" rel="noopener">
+            <div class="next-match-header">
+              <div class="next-match-label">Najbliższy mecz</div>
+              <div class="match-venue-badge">Dom/Wyjazd</div>
+            </div>
+            <div class="next-match-datetime">Data i godzina</div>
+            <div class="next-match-opponent">vs Rywal</div>
+            <div class="next-match-nav-hint">📍 Nawiguj do hali &rarr;</div>
+          </a>
         </div>
         <a class="btn" href="webcal://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u14m_1.ics" onclick="subskrybuj(event, 'tarnovia_u14m_1.ics')">
           📅 Subskrybuj kalendarz
@@ -419,11 +512,19 @@
           <div class="card-category">Młodzicy Starsi</div>
           <div class="card-title">U14 Mężczyzn (II)</div>
           <div class="card-desc">G-EN- Gaz Energia Tarnovia II</div>
-          <div class="status-badge status-active">🟢 Terminarz aktywny</div>
-          <div class="next-match-box" style="display:none;">
-            <div class="next-match-label">Najbliższy mecz</div>
-            <div class="next-match-info">Ładowanie...</div>
+          <div class="status-row">
+            <div class="status-badge status-active">🟢 Terminarz aktywny</div>
+            <div class="sync-time" style="display:none;"></div>
           </div>
+          <a class="next-match-box" style="display:none;" target="_blank" rel="noopener">
+            <div class="next-match-header">
+              <div class="next-match-label">Najbliższy mecz</div>
+              <div class="match-venue-badge">Dom/Wyjazd</div>
+            </div>
+            <div class="next-match-datetime">Data i godzina</div>
+            <div class="next-match-opponent">vs Rywal</div>
+            <div class="next-match-nav-hint">📍 Nawiguj do hali &rarr;</div>
+          </a>
         </div>
         <a class="btn" href="webcal://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u14m_2.ics" onclick="subskrybuj(event, 'tarnovia_u14m_2.ics')">
           📅 Subskrybuj kalendarz
@@ -436,11 +537,19 @@
           <div class="card-category">Młodzicy</div>
           <div class="card-title">U13 Mężczyzn</div>
           <div class="card-desc">G-EN- Gaz Energia Tarnovia</div>
-          <div class="status-badge status-active">🟢 Terminarz aktywny</div>
-          <div class="next-match-box" style="display:none;">
-            <div class="next-match-label">Najbliższy mecz</div>
-            <div class="next-match-info">Ładowanie...</div>
+          <div class="status-row">
+            <div class="status-badge status-active">🟢 Terminarz aktywny</div>
+            <div class="sync-time" style="display:none;"></div>
           </div>
+          <a class="next-match-box" style="display:none;" target="_blank" rel="noopener">
+            <div class="next-match-header">
+              <div class="next-match-label">Najbliższy mecz</div>
+              <div class="match-venue-badge">Dom/Wyjazd</div>
+            </div>
+            <div class="next-match-datetime">Data i godzina</div>
+            <div class="next-match-opponent">vs Rywal</div>
+            <div class="next-match-nav-hint">📍 Nawiguj do hali &rarr;</div>
+          </a>
         </div>
         <a class="btn" href="webcal://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u13m.ics" onclick="subskrybuj(event, 'tarnovia_u13m.ics')">
           📅 Subskrybuj kalendarz
@@ -453,7 +562,9 @@
           <div class="card-category">Żacy</div>
           <div class="card-title">U12 Mężczyzn</div>
           <div class="card-desc">G-EN- Gaz Energia Tarnovia</div>
-          <div class="status-badge status-pending">🟡 Oczekuje na godziny WZKosz</div>
+          <div class="status-row">
+            <div class="status-badge status-pending">🟡 Oczekuje na godziny WZKosz</div>
+          </div>
         </div>
         <a class="btn" href="webcal://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u12m.ics" onclick="subskrybuj(event, 'tarnovia_u12m.ics')">
           📅 Subskrybuj kalendarz
@@ -470,7 +581,9 @@
           <div class="card-category female">Kadetki</div>
           <div class="card-title">U16 Kobiet</div>
           <div class="card-desc">Korona-Tarnovia Zakrzewo</div>
-          <div class="status-badge status-pending">🟡 Oczekuje na godziny WZKosz</div>
+          <div class="status-row">
+            <div class="status-badge status-pending">🟡 Oczekuje na godziny WZKosz</div>
+          </div>
         </div>
         <a class="btn" href="webcal://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u16k.ics" onclick="subskrybuj(event, 'tarnovia_u16k.ics')">
           📅 Subskrybuj kalendarz
@@ -483,11 +596,19 @@
           <div class="card-category female">Młodziczki Starsze</div>
           <div class="card-title">U14 Kobiet</div>
           <div class="card-desc">Korona-Tarnovia Zakrzewo</div>
-          <div class="status-badge status-active">🟢 Terminarz aktywny</div>
-          <div class="next-match-box" style="display:none;">
-            <div class="next-match-label">Najbliższy mecz</div>
-            <div class="next-match-info">Ładowanie...</div>
+          <div class="status-row">
+            <div class="status-badge status-active">🟢 Terminarz aktywny</div>
+            <div class="sync-time" style="display:none;"></div>
           </div>
+          <a class="next-match-box" style="display:none;" target="_blank" rel="noopener">
+            <div class="next-match-header">
+              <div class="next-match-label">Najbliższy mecz</div>
+              <div class="match-venue-badge">Dom/Wyjazd</div>
+            </div>
+            <div class="next-match-datetime">Data i godzina</div>
+            <div class="next-match-opponent">vs Rywal</div>
+            <div class="next-match-nav-hint">📍 Nawiguj do hali &rarr;</div>
+          </a>
         </div>
         <a class="btn" href="webcal://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u14k.ics" onclick="subskrybuj(event, 'tarnovia_u14k.ics')">
           📅 Subskrybuj kalendarz
@@ -519,7 +640,14 @@
           <div class="changelog-title">Historia wersji</div>
           <div class="changelog-item">
             <div class="changelog-ver">v 1.0.3 (Aktualna)</div>
-            <div class="changelog-desc">• Statusy dostępności (aktywne / oczekujące na godziny).<br>• Podgląd najbliższego meczu bezpośrednio na kafelku zespołu.<br>• Dyskretny changelog ukryty pod numerem wersji.</div>
+            <div class="changelog-desc">
+              • Statusy dostępności (aktywne / oczekujące na godziny).<br>
+              • Data ostatniej aktualizacji kalendarza przy statusie.<br>
+              • Przejrzysta nazwa rywala (usunięcie prefixu meczu).<br>
+              • Oznaczenie meczu Dom (🏠) / Wyjazd (🚗).<br>
+              • Klikalny kafelek meczu z bezpośrednią nawigacją GPS do hali.<br>
+              • Dyskretny changelog ukryty pod numerem wersji.
+            </div>
           </div>
           <div class="changelog-item">
             <div class="changelog-ver">v 1.0.2</div>
@@ -560,7 +688,7 @@
       }
     });
 
-    // Parsowanie daty z formatu ICS (np. 20241012T090000Z lub 20241012T090000)
+    // Parsowanie daty z formatu ICS
     function parsujDateICS(str) {
       if (!str) return null;
       var czysty = str.replace(/[^0-9T]/g, '');
@@ -570,35 +698,60 @@
       var h = parseInt(czysty.substring(9, 11), 10);
       var min = parseInt(czysty.substring(11, 13), 10);
       
-      // Jeśli czas kończy się na Z w ICS, oznacza to UTC
       if (str.indexOf('Z') !== -1) {
         return new Date(Date.UTC(y, m, d, h, min));
       }
       return new Date(y, m, d, h, min);
     }
 
-    // Pobieranie i wyświetlanie najbliższego meczu
-    function pobierzNajblizszeMecze() {
+    // Czyszczenie nazwy rywala (usuwanie np. "Mecz 3LM vs", "Mecz U13M vs")
+    function wyczyscNazwe(summary) {
+      if (!summary) return 'Mecz ligowy';
+      var idx = summary.toLowerCase().indexOf(' vs ');
+      if (idx !== -1) {
+        return 'vs ' + summary.substring(idx + 4).trim();
+      }
+      return summary;
+    }
+
+    // Pobieranie i prezentacja danych
+    function zaladujDaneKalendarzy() {
       var cards = document.querySelectorAll('.card[data-ics]');
       var dniTygodnia = ['Nd', 'Pn', 'Wt', 'Śr', 'Cz', 'Pt', 'Sb'];
       var teraz = new Date();
 
       cards.forEach(function(card) {
         var icsFile = card.getAttribute('data-ics');
+        var syncTimeEl = card.querySelector('.sync-time');
         var matchBox = card.querySelector('.next-match-box');
         var matchLabel = card.querySelector('.next-match-label');
-        var matchInfo = card.querySelector('.next-match-info');
+        var venueBadge = card.querySelector('.match-venue-badge');
+        var matchDatetime = card.querySelector('.next-match-datetime');
+        var matchOpponent = card.querySelector('.next-match-opponent');
 
-        // Dodajemy parametr losowy (?t=...), aby ominąć ewentualny cache przeglądarki
         fetch(GIST_BASE + icsFile + '?t=' + new Date().getTime())
           .then(function(res) {
             if (!res.ok) throw new Error('Brak pliku');
+
+            // Odczyt daty modyfikacji pliku z nagłówka HTTP (jeśli dostępny)
+            var lastModHeader = res.headers.get('Last-Modified');
+            if (lastModHeader && syncTimeEl) {
+              var lm = new Date(lastModHeader);
+              var lmDay = ('0' + lm.getDate()).slice(-2);
+              var lmMonth = ('0' + (lm.getMonth() + 1)).slice(-2);
+              var lmH = ('0' + lm.getHours()).slice(-2);
+              var lmM = ('0' + lm.getMinutes()).slice(-2);
+              syncTimeEl.textContent = 'Aktualizacja: ' + lmDay + '.' + lmMonth + ' ' + lmH + ':' + lmM;
+              syncTimeEl.style.display = 'inline-block';
+            }
+
             return res.text();
           })
           .then(function(text) {
             var lines = text.split(/\r\n|\n|\r/);
             var events = [];
             var currentEvent = null;
+            var dtstampDate = null;
 
             lines.forEach(function(line) {
               if (line.startsWith('BEGIN:VEVENT')) {
@@ -611,60 +764,89 @@
               } else if (currentEvent) {
                 if (line.startsWith('SUMMARY:')) {
                   currentEvent.summary = line.substring(8);
+                } else if (line.startsWith('LOCATION:')) {
+                  currentEvent.location = line.substring(9).replace(/\\,/g, ',');
                 } else if (line.startsWith('DTSTART')) {
                   var parts = line.split(':');
                   if (parts.length > 1) {
                     currentEvent.dtstart = parsujDateICS(parts[1]);
                   }
+                } else if (line.startsWith('DTSTAMP:')) {
+                  if (!dtstampDate) {
+                    dtstampDate = parsujDateICS(line.substring(8));
+                  }
                 }
               }
             });
 
+            // Fallback: jeśli nagłówek Last-Modified był pusty, bierzemy DTSTAMP z pliku
+            if (dtstampDate && syncTimeEl && !syncTimeEl.textContent) {
+              var sDay = ('0' + dtstampDate.getDate()).slice(-2);
+              var sMonth = ('0' + (dtstampDate.getMonth() + 1)).slice(-2);
+              var sH = ('0' + dtstampDate.getHours()).slice(-2);
+              var sM = ('0' + dtstampDate.getMinutes()).slice(-2);
+              syncTimeEl.textContent = 'Aktualizacja: ' + sDay + '.' + sMonth + ' ' + sH + ':' + sM;
+              syncTimeEl.style.display = 'inline-block';
+            }
+
             if (events.length === 0) return;
 
-            // Sortujemy chronologicznie
             events.sort(function(a, b) {
               return a.dtstart - b.dtstart;
             });
 
-            // Szukamy meczu z przyszłości
             var nadchodzace = events.filter(function(ev) {
               return ev.dtstart >= teraz;
             });
 
-            var wybranyMecz = null;
+            var mecz = null;
             if (nadchodzace.length > 0) {
-              wybranyMecz = nadchodzace[0];
+              mecz = nadchodzace[0];
               matchLabel.textContent = "Najbliższy mecz";
             } else {
-              // Jeśli wszystkie mecze w kalendarzu są z przeszłości, pokazujemy ostatni
-              wybranyMecz = events[events.length - 1];
+              mecz = events[events.length - 1];
               matchLabel.textContent = "Ostatni mecz";
             }
 
-            if (wybranyMecz && wybranyMecz.dtstart) {
-              var d = wybranyMecz.dtstart;
+            if (mecz && mecz.dtstart) {
+              var d = mecz.dtstart;
               var dayName = dniTygodnia[d.getDay()];
               var day = ('0' + d.getDate()).slice(-2);
               var month = ('0' + (d.getMonth() + 1)).slice(-2);
               var hours = ('0' + d.getHours()).slice(-2);
               var minutes = ('0' + d.getMinutes()).slice(-2);
 
-              matchInfo.innerHTML = "<strong>" + dayName + ", " + day + "." + month + " o " + hours + ":" + minutes + "</strong><br>" + (wybranyMecz.summary || 'Mecz ligowy');
+              matchDatetime.textContent = dayName + ', ' + day + '.' + month + ' o ' + hours + ':' + minutes;
+              matchOpponent.textContent = wyczyscNazwe(mecz.summary);
+
+              // Wykrywanie Dom / Wyjazd
+              var loc = (mecz.location || '').toLowerCase();
+              var isHome = loc.indexOf('tarnowo') !== -1 || loc.indexOf('zakrzewo') !== -1 || loc.indexOf('ogrodowa') !== -1;
+
+              if (isHome) {
+                venueBadge.textContent = "🏠 Dom";
+                venueBadge.className = "match-venue-badge home";
+              } else {
+                venueBadge.textContent = "🚗 Wyjazd";
+                venueBadge.className = "match-venue-badge";
+              }
+
+              // Adres do nawigacji GPS
+              var destination = mecz.location || 'Tarnowo Podgórne';
+              matchBox.href = 'https://maps.google.com/?q=' + encodeURIComponent(destination);
               matchBox.style.display = 'block';
             }
           })
-          .catch(function(err) {
-            // Brak pliku lub błąd sieci – ukrywamy boks
+          .catch(function() {
             if (matchBox) matchBox.style.display = 'none';
           });
       });
     }
 
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', pobierzNajblizszeMecze);
+      document.addEventListener('DOMContentLoaded', zaladujDaneKalendarzy);
     } else {
-      pobierzNajblizszeMecze();
+      zaladujDaneKalendarzy();
     }
   </script>
 </body>
