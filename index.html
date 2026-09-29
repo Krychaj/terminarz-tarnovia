@@ -718,7 +718,7 @@
 
     function odkodujICS(val) {
       if (!val) return '';
-      return val.replace(/\\n/g, '\n').replace(/\\,/g, ',').replace(/\\;/g, ';').replace(/\\\\/g, '\\').trim();
+      return val.replace(/\\n/gi, '\n').replace(/\\,/g, ',').replace(/\\;/g, ';').replace(/\\\\/g, '\\').trim();
     }
 
     function wyczyscNazwe(summary) {
@@ -730,20 +730,34 @@
       return summary;
     }
 
-    // Precyzyjne wyciąganie adresu z pola DESCRIPTION po "Hala:"
+    // Wyciąganie pełnego adresu hali z pola DESCRIPTION (wielowierszowego lub jednolinijkowego)
     function wyciagnijAdresHali(description, location) {
       if (description) {
-        var text = odkodujICS(description);
-        var idx = text.indexOf('Hala:');
+        var rawText = odkodujICS(description);
+
+        // Dopasowujemy fragment po "Hala:" aż do końca linii lub do następnego nagłówka
+        var regex = /(?:^|\n|\r)Hala:\s*([^\r\n]+)/i;
+        var m = rawText.match(regex);
+        if (m && m[1] && m[1].trim().length > 3) {
+          return m[1].trim();
+        }
+
+        // Awaryjne wyszukiwanie bez kotwiczenia na początku linii
+        var idx = rawText.toLowerCase().indexOf('hala:');
         if (idx !== -1) {
-          var odHala = text.substring(idx + 5).trim();
-          var lines = odHala.split(/\r?\n/);
+          var substr = rawText.substring(idx + 5).trim();
+          var lines = substr.split(/[\r\n]+/);
           if (lines.length > 0 && lines[0].trim().length > 3) {
             return lines[0].trim();
           }
         }
       }
-      return odkodujICS(location) || 'Tarnowo Podgórne';
+
+      var locClean = odkodujICS(location);
+      if (locClean && locClean.length > 2) {
+        return locClean;
+      }
+      return 'OSiR Tarnowo Podgórne, ul. Nowa 60';
     }
 
     function zaladujDaneKalendarzy() {
@@ -851,14 +865,15 @@
               matchDatetime.textContent = dayName + ', ' + day + '.' + month + ' o ' + hours + ':' + minutes;
               matchOpponent.textContent = wyczyscNazwe(odkodujICS(mecz.summary));
 
-              // Pobieramy dokładny adres z pola Description po "Hala:"
+              // Odczytujemy dokładny adres z pola "Hala:" w opisie meczu
               var dokladnyAdresHali = wyciagnijAdresHali(mecz.description, mecz.location);
 
-              // Dom / Wyjazd
+              // Wykrywanie Dom / Wyjazd
               var hallLower = dokladnyAdresHali.toLowerCase();
               var locLower = (odkodujICS(mecz.location) || '').toLowerCase();
               var isHome = hallLower.indexOf('tarnowo') !== -1 || 
                            hallLower.indexOf('zakrzewo') !== -1 || 
+                           hallLower.indexOf('nowa 60') !== -1 ||
                            locLower.indexOf('tarnowo') !== -1 || 
                            locLower.indexOf('zakrzewo') !== -1;
 
@@ -870,7 +885,7 @@
                 venueBadge.className = "match-venue-badge";
               }
 
-              // Bezpośredni link nawigacji pod dokładny adres
+              // Precyzyjna nawigacja pod dokładny adres
               matchBox.href = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(dokladnyAdresHali);
               matchBox.style.display = 'block';
             }
