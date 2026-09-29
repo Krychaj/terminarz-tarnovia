@@ -635,21 +635,28 @@
     <!-- STOPKA: KLIKALNY NUMER WERSJI Z HISTORIĄ -->
     <div class="changelog-wrapper">
       <details class="changelog-details" id="changelogDetails">
-        <summary class="changelog-summary">1.0.4 v3</summary>
+        <summary class="changelog-summary">1.0.4 v4</summary>
         <div class="changelog-content">
           <div class="changelog-title">Historia wersji</div>
           <div class="changelog-item">
-            <div class="changelog-ver">1.0.4 v3 (Aktualna)</div>
+            <div class="changelog-ver">1.0.4 v4 (Aktualna)</div>
             <div class="changelog-desc">
-              • Poprawka wyciągania pełnego adresu hali z pola Description (obsługa łamanych linii i kodów pocztowych).<br>
-              • Zmiana formatu oznaczenia wersji na czyste "1.0.4 v3".
+              • Wprowadzono bezpieczną walidację adresu hali (zapobieganie błędnym trasom nawigacji).<br>
+              • W razie wątpliwego lub pustego adresu hali skrypt nawiguje bezpiecznie do miasta meczu.
+            </div>
+          </div>
+          <div class="changelog-item">
+            <div class="changelog-ver">1.0.4 v3</div>
+            <div class="changelog-desc">
+              • Poprawka wyciągania pełnego adresu hali z pola Description.<br>
+              • Zmiana formatu oznaczenia wersji na "1.0.4 v3".
             </div>
           </div>
           <div class="changelog-item">
             <div class="changelog-ver">1.0.4</div>
             <div class="changelog-desc">
               • Czysty podgląd meczu (usunięto pinezkę z miastem z kafelka).<br>
-              • Kliknięcie w cały kafelek meczu uruchamia nawigację GPS pod dokładny adres pobrany z pola Description po "Hala:".<br>
+              • Kliknięcie w cały kafelek meczu uruchamia nawigację GPS.<br>
               • Automatyczne zamykanie dymka historii wersji po kliknięciu w tło strony.
             </div>
           </div>
@@ -659,21 +666,8 @@
               • Statusy dostępności (aktywne / oczekujące na godziny).<br>
               • Data i godzina ostatniej aktualizacji pliku kalendarza.<br>
               • Podgląd najbliższego meczu bezpośrednio na kafelku drużyny.<br>
-              • Oznaczenie spotkania Dom (🏠) / Wyjazd (🚗).<br>
-              • Dyskretny changelog ukryty pod numerem wersji.
+              • Oznaczenie spotkania Dom (🏠) / Wyjazd (🚗).
             </div>
-          </div>
-          <div class="changelog-item">
-            <div class="changelog-ver">1.0.2</div>
-            <div class="changelog-desc">• Podział na ligi męskie i żeńskie.</div>
-          </div>
-          <div class="changelog-item">
-            <div class="changelog-ver">1.0.1</div>
-            <div class="changelog-desc">• Dodanie kategorii U12M.</div>
-          </div>
-          <div class="changelog-item">
-            <div class="changelog-ver">1.0.0</div>
-            <div class="changelog-desc">• Pierwsze publiczne wydanie landing page.</div>
           </div>
         </div>
       </details>
@@ -702,12 +696,10 @@
       }
     });
 
-    // Składanie wielowierszowych linii RFC 5545
     function unfoldICS(text) {
       return text.replace(/\r\n[ \t]|\r[ \t]|\n[ \t]/g, '');
     }
 
-    // Parsowanie daty z formatu ICS
     function parsujDateICS(str) {
       if (!str) return null;
       var czysty = str.replace(/[^0-9T]/g, '');
@@ -737,8 +729,10 @@
       return summary;
     }
 
-    // Pobiera PEŁNY blok adresu po słowie "Hala:"
+    // Wyciąganie i bezpieczna walidacja adresu hali
     function wyciagnijAdresHali(description, location) {
+      var locClean = odkodujICS(location);
+
       if (description) {
         var raw = odkodujICS(description);
         var lower = raw.toLowerCase();
@@ -746,25 +740,22 @@
         
         if (pos !== -1) {
           var tekstPoHala = raw.substring(pos + 5).trim();
-          
-          // Szukamy początku kolejnej sekcji w opisie (np. Sędziowie:, STATUS:, Organizator:, Mecz:)
           var endRegex = /\n\s*(?:sędziowie|sedziowie|status|organizator|kolejka|mecz):/i;
           var endMatch = tekstPoHala.match(endRegex);
           var adresBlok = endMatch ? tekstPoHala.substring(0, endMatch.index) : tekstPoHala;
 
-          // Zamieniamy podziały wierszy wewnątrz adresu na przecinki ze spacją
-          var pelnyAdres = adresBlok.split(/[\r\n]+/)
+          var kandydat = adresBlok.split(/[\r\n]+/)
             .map(function(s) { return s.trim(); })
             .filter(function(s) { return s.length > 0; })
             .join(', ');
 
-          if (pelnyAdres.length > 3) {
-            return pelnyAdres;
+          // Sprawdzamy czy to nie jest pusty wpis typu "-", "brak", "TBD"
+          if (kandydat.length > 3 && !kandydat.match(/^(brak|tbd|-|\?)$/i)) {
+            return kandydat;
           }
         }
       }
 
-      var locClean = odkodujICS(location);
       if (locClean && locClean.length > 2) {
         return locClean;
       }
@@ -876,10 +867,8 @@
               matchDatetime.textContent = dayName + ', ' + day + '.' + month + ' o ' + hours + ':' + minutes;
               matchOpponent.textContent = wyczyscNazwe(odkodujICS(mecz.summary));
 
-              // Odczytujemy pełny adres hali z pola Description
               var dokladnyAdresHali = wyciagnijAdresHali(mecz.description, mecz.location);
 
-              // Wykrywanie Dom / Wyjazd
               var hallLower = dokladnyAdresHali.toLowerCase();
               var locLower = (odkodujICS(mecz.location) || '').toLowerCase();
               var isHome = hallLower.indexOf('tarnowo') !== -1 || 
@@ -896,7 +885,6 @@
                 venueBadge.className = "match-venue-badge";
               }
 
-              // Bezpośredni link nawigacji pod pełny adres hali
               matchBox.href = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(dokladnyAdresHali);
               matchBox.style.display = 'block';
             }
