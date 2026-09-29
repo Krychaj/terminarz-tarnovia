@@ -163,7 +163,7 @@
       font-family: ui-monospace, monospace;
     }
 
-    /* Najbliższy mecz jako klikalny kafelek z nawigacją */
+    /* Najbliższy mecz jako klikalny kafelek z bezpośrednią nawigacją */
     .next-match-box {
       margin-top: 12px;
       background-color: #f1f5f9;
@@ -223,13 +223,6 @@
       color: var(--text-main);
       font-weight: 600;
       line-height: 1.35;
-    }
-
-    .next-match-hall {
-      font-size: 11.5px;
-      color: var(--text-muted);
-      margin-top: 3px;
-      line-height: 1.3;
     }
 
     .next-match-nav-hint {
@@ -430,7 +423,6 @@
             </div>
             <div class="next-match-datetime">Data i godzina</div>
             <div class="next-match-opponent">vs Rywal</div>
-            <div class="next-match-hall">Miejsce meczu</div>
             <div class="next-match-nav-hint">📍 Nawiguj do hali &rarr;</div>
           </a>
         </div>
@@ -456,7 +448,6 @@
             </div>
             <div class="next-match-datetime">Data i godzina</div>
             <div class="next-match-opponent">vs Rywal</div>
-            <div class="next-match-hall">Miejsce meczu</div>
             <div class="next-match-nav-hint">📍 Nawiguj do hali &rarr;</div>
           </a>
         </div>
@@ -482,7 +473,6 @@
             </div>
             <div class="next-match-datetime">Data i godzina</div>
             <div class="next-match-opponent">vs Rywal</div>
-            <div class="next-match-hall">Miejsce meczu</div>
             <div class="next-match-nav-hint">📍 Nawiguj do hali &rarr;</div>
           </a>
         </div>
@@ -508,7 +498,6 @@
             </div>
             <div class="next-match-datetime">Data i godzina</div>
             <div class="next-match-opponent">vs Rywal</div>
-            <div class="next-match-hall">Miejsce meczu</div>
             <div class="next-match-nav-hint">📍 Nawiguj do hali &rarr;</div>
           </a>
         </div>
@@ -534,7 +523,6 @@
             </div>
             <div class="next-match-datetime">Data i godzina</div>
             <div class="next-match-opponent">vs Rywal</div>
-            <div class="next-match-hall">Miejsce meczu</div>
             <div class="next-match-nav-hint">📍 Nawiguj do hali &rarr;</div>
           </a>
         </div>
@@ -560,7 +548,6 @@
             </div>
             <div class="next-match-datetime">Data i godzina</div>
             <div class="next-match-opponent">vs Rywal</div>
-            <div class="next-match-hall">Miejsce meczu</div>
             <div class="next-match-nav-hint">📍 Nawiguj do hali &rarr;</div>
           </a>
         </div>
@@ -620,7 +607,6 @@
             </div>
             <div class="next-match-datetime">Data i godzina</div>
             <div class="next-match-opponent">vs Rywal</div>
-            <div class="next-match-hall">Miejsce meczu</div>
             <div class="next-match-nav-hint">📍 Nawiguj do hali &rarr;</div>
           </a>
         </div>
@@ -649,18 +635,24 @@
     <!-- STOPKA: KLIKALNY NUMER WERSJI Z HISTORIĄ -->
     <div class="changelog-wrapper">
       <details class="changelog-details" id="changelogDetails">
-        <summary class="changelog-summary">v 1.0.3</summary>
+        <summary class="changelog-summary">v 1.0.4</summary>
         <div class="changelog-content">
           <div class="changelog-title">Historia wersji</div>
           <div class="changelog-item">
-            <div class="changelog-ver">v 1.0.3 (Aktualna)</div>
+            <div class="changelog-ver">v 1.0.4 (Aktualna)</div>
+            <div class="changelog-desc">
+              • Czysty podgląd meczu (usunięto pinezkę z miastem z kafelka).<br>
+              • Kliknięcie w cały kafelek meczu uruchamia nawigację GPS pod dokładny adres pobrany z pola Description po "Hala:".<br>
+              • Automatyczne zamykanie dymka historii wersji po kliknięciu w tło strony.
+            </div>
+          </div>
+          <div class="changelog-item">
+            <div class="changelog-ver">v 1.0.3</div>
             <div class="changelog-desc">
               • Statusy dostępności (aktywne / oczekujące na godziny).<br>
-              • Data ostatniej aktualizacji kalendarza przy statusie.<br>
-              • Przejrzysta nazwa rywala (usunięcie prefixu meczu).<br>
-              • Oznaczenie meczu Dom (🏠) / Wyjazd (🚗).<br>
-              • Odczyt dokładnego adresu hali z opisu meczu (pole Hala).<br>
-              • Bezpośrednia nawigacja GPS prosto pod drzwi hali.<br>
+              • Data i godzina ostatniej aktualizacji pliku kalendarza.<br>
+              • Podgląd najbliższego meczu bezpośrednio na kafelku drużyny.<br>
+              • Oznaczenie spotkania Dom (🏠) / Wyjazd (🚗).<br>
               • Dyskretny changelog ukryty pod numerem wersji.
             </div>
           </div>
@@ -703,10 +695,12 @@
       }
     });
 
+    // Unfolding: składanie długich linii RFC 5545
     function unfoldICS(text) {
       return text.replace(/\r\n[ \t]|\r[ \t]|\n[ \t]/g, '');
     }
 
+    // Parsowanie daty z formatu ICS
     function parsujDateICS(str) {
       if (!str) return null;
       var czysty = str.replace(/[^0-9T]/g, '');
@@ -736,21 +730,20 @@
       return summary;
     }
 
-    // Ekstrakcja dokładnego adresu hali ze szczegółów opisu (DESCRIPTION)
-    function wyciagnijHaleZOpisu(description, fallbackLocation) {
+    // Precyzyjne wyciąganie adresu z pola DESCRIPTION po "Hala:"
+    function wyciagnijAdresHali(description, location) {
       if (description) {
-        var cleanDesc = odkodujICS(description);
-        var match = cleanDesc.match(/Hala:\s*([^\r\n]+)/i);
-        if (match && match[1] && match[1].trim().length > 3) {
-          return match[1].trim();
+        var text = odkodujICS(description);
+        var idx = text.indexOf('Hala:');
+        if (idx !== -1) {
+          var odHala = text.substring(idx + 5).trim();
+          var lines = odHala.split(/\r?\n/);
+          if (lines.length > 0 && lines[0].trim().length > 3) {
+            return lines[0].trim();
+          }
         }
       }
-      var cleanLoc = odkodujICS(fallbackLocation);
-      return cleanLoc || 'Tarnowo Podgórne';
-    }
-
-    function zbudujLinkNawigacji(adresHali) {
-      return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(adresHali);
+      return odkodujICS(location) || 'Tarnowo Podgórne';
     }
 
     function zaladujDaneKalendarzy() {
@@ -766,7 +759,6 @@
         var venueBadge = card.querySelector('.match-venue-badge');
         var matchDatetime = card.querySelector('.next-match-datetime');
         var matchOpponent = card.querySelector('.next-match-opponent');
-        var matchHall = card.querySelector('.next-match-hall');
 
         fetch(GIST_BASE + icsFile + '?t=' + new Date().getTime())
           .then(function(res) {
@@ -859,17 +851,11 @@
               matchDatetime.textContent = dayName + ', ' + day + '.' + month + ' o ' + hours + ':' + minutes;
               matchOpponent.textContent = wyczyscNazwe(odkodujICS(mecz.summary));
 
-              // Odczyt pełnego adresu hali z DESCRIPTION ("Hala: ...")
-              var dokladnaHala = wyciagnijHaleZOpisu(mecz.description, mecz.location);
-              if (dokladnaHala) {
-                matchHall.textContent = '📍 ' + dokladnaHala;
-                matchHall.style.display = 'block';
-              } else {
-                matchHall.style.display = 'none';
-              }
+              // Pobieramy dokładny adres z pola Description po "Hala:"
+              var dokladnyAdresHali = wyciagnijAdresHali(mecz.description, mecz.location);
 
-              // Rozpoznanie Dom / Wyjazd
-              var hallLower = dokladnaHala.toLowerCase();
+              // Dom / Wyjazd
+              var hallLower = dokladnyAdresHali.toLowerCase();
               var locLower = (odkodujICS(mecz.location) || '').toLowerCase();
               var isHome = hallLower.indexOf('tarnowo') !== -1 || 
                            hallLower.indexOf('zakrzewo') !== -1 || 
@@ -884,8 +870,8 @@
                 venueBadge.className = "match-venue-badge";
               }
 
-              // Nawigacja prowadzi dokładnie pod adres wyciągnięty z "Hala:"
-              matchBox.href = zbudujLinkNawigacji(dokladnaHala);
+              // Bezpośredni link nawigacji pod dokładny adres
+              matchBox.href = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(dokladnyAdresHali);
               matchBox.style.display = 'block';
             }
           })
