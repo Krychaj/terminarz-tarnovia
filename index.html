@@ -460,7 +460,7 @@
 
     <!-- STOPKA: KLIKALNY NUMER WERSJI Z HISTORIĄ -->
     <div class="changelog-wrapper">
-      <details class="changelog-details">
+      <details class="changelog-details" id="changelogDetails">
         <summary class="changelog-summary">v 1.0.3</summary>
         <div class="changelog-content">
           <div class="changelog-title">Historia wersji</div>
@@ -496,6 +496,14 @@
         window.location.href = "https://calendar.google.com/calendar/r?cid=" + encodeURIComponent(urlIcs);
       }
     }
+
+    // Zamykanie okienka changeloga po kliknięciu poza nim
+    document.addEventListener('click', function(event) {
+      var details = document.getElementById('changelogDetails');
+      if (details && details.open && !details.contains(event.target)) {
+        details.removeAttribute('open');
+      }
+    });
   </script>
 </body>
 </html>
