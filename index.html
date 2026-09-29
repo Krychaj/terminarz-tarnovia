@@ -635,11 +635,18 @@
     <!-- STOPKA: KLIKALNY NUMER WERSJI Z HISTORIĄ -->
     <div class="changelog-wrapper">
       <details class="changelog-details" id="changelogDetails">
-        <summary class="changelog-summary">v 1.0.4</summary>
+        <summary class="changelog-summary">v 1.0.4 v2</summary>
         <div class="changelog-content">
           <div class="changelog-title">Historia wersji</div>
           <div class="changelog-item">
-            <div class="changelog-ver">v 1.0.4 (Aktualna)</div>
+            <div class="changelog-ver">v 1.0.4 v2 (Aktualna)</div>
+            <div class="changelog-desc">
+              • Oznaczenie wersji w formacie "v 1.0.4 v2".<br>
+              • Zwiększona czułość parsera na pole "Hala:" w opisie meczu.
+            </div>
+          </div>
+          <div class="changelog-item">
+            <div class="changelog-ver">v 1.0.4</div>
             <div class="changelog-desc">
               • Czysty podgląd meczu (usunięto pinezkę z miastem z kafelka).<br>
               • Kliknięcie w cały kafelek meczu uruchamia nawigację GPS pod dokładny adres pobrany z pola Description po "Hala:".<br>
@@ -695,7 +702,7 @@
       }
     });
 
-    // Unfolding: składanie długich linii RFC 5545
+    // Składanie wielowierszowych linii RFC 5545
     function unfoldICS(text) {
       return text.replace(/\r\n[ \t]|\r[ \t]|\n[ \t]/g, '');
     }
@@ -730,23 +737,16 @@
       return summary;
     }
 
-    // Wyciąganie pełnego adresu hali z pola DESCRIPTION (wielowierszowego lub jednolinijkowego)
+    // Wyciąganie pełnego adresu hali z pola DESCRIPTION po "Hala:"
     function wyciagnijAdresHali(description, location) {
       if (description) {
         var rawText = odkodujICS(description);
 
-        // Dopasowujemy fragment po "Hala:" aż do końca linii lub do następnego nagłówka
-        var regex = /(?:^|\n|\r)Hala:\s*([^\r\n]+)/i;
-        var m = rawText.match(regex);
-        if (m && m[1] && m[1].trim().length > 3) {
-          return m[1].trim();
-        }
-
-        // Awaryjne wyszukiwanie bez kotwiczenia na początku linii
+        // Szukamy wystąpienia "Hala:" bez względu na wielkość liter
         var idx = rawText.toLowerCase().indexOf('hala:');
         if (idx !== -1) {
-          var substr = rawText.substring(idx + 5).trim();
-          var lines = substr.split(/[\r\n]+/);
+          var odHala = rawText.substring(idx + 5).trim();
+          var lines = odHala.split(/[\r\n]+/);
           if (lines.length > 0 && lines[0].trim().length > 3) {
             return lines[0].trim();
           }
@@ -757,7 +757,7 @@
       if (locClean && locClean.length > 2) {
         return locClean;
       }
-      return 'OSiR Tarnowo Podgórne, ul. Nowa 60';
+      return 'OSiR Tarnowo Podgórne, Nowa 60';
     }
 
     function zaladujDaneKalendarzy() {
@@ -885,7 +885,7 @@
                 venueBadge.className = "match-venue-badge";
               }
 
-              // Precyzyjna nawigacja pod dokładny adres
+              // Bezpośredni link nawigacji pod dokładny adres
               matchBox.href = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(dokladnyAdresHali);
               matchBox.style.display = 'block';
             }
