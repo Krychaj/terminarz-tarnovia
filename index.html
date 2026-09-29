@@ -659,8 +659,8 @@
               • Data ostatniej aktualizacji kalendarza przy statusie.<br>
               • Przejrzysta nazwa rywala (usunięcie prefixu meczu).<br>
               • Oznaczenie meczu Dom (🏠) / Wyjazd (🚗).<br>
-              • Wyświetlenie adresu hali na kafelku meczu.<br>
-              • Precyzyjna nawigacja GPS prosto pod adres hali (zamiast samego miasta).<br>
+              • Odczyt dokładnego adresu hali z opisu meczu (pole Hala).<br>
+              • Bezpośrednia nawigacja GPS prosto pod drzwi hali.<br>
               • Dyskretny changelog ukryty pod numerem wersji.
             </div>
           </div>
@@ -703,12 +703,10 @@
       }
     });
 
-    // Unfolding linii iCalendar (RFC 5545): linie zaczynające się spacją/tabem są kontynuacją poprzedniej
     function unfoldICS(text) {
       return text.replace(/\r\n[ \t]|\r[ \t]|\n[ \t]/g, '');
     }
 
-    // Parsowanie daty z formatu ICS
     function parsujDateICS(str) {
       if (!str) return null;
       var czysty = str.replace(/[^0-9T]/g, '');
@@ -724,13 +722,11 @@
       return new Date(y, m, d, h, min);
     }
 
-    // Oczyszczanie wartości z formatu ICS (usuwanie ukośników ucieczki)
     function odkodujICS(val) {
       if (!val) return '';
-      return val.replace(/\\n/g, ' ').replace(/\\,/g, ',').replace(/\\;/g, ';').replace(/\\\\/g, '\\').trim();
+      return val.replace(/\\n/g, '\n').replace(/\\,/g, ',').replace(/\\;/g, ';').replace(/\\\\/g, '\\').trim();
     }
 
-    // Czyszczenie nazwy rywala
     function wyczyscNazwe(summary) {
       if (!summary) return 'Mecz ligowy';
       var idx = summary.toLowerCase().indexOf(' vs ');
@@ -740,14 +736,21 @@
       return summary;
     }
 
-    // Budowanie optymalnego linku nawigacji do hali
-    function zbudujLinkNawigacji(locationRaw) {
-      var loc = odkodujICS(locationRaw);
-      if (!loc) {
-        return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('Tarnowo Podgórne Hala Sportowa');
+    // Ekstrakcja dokładnego adresu hali ze szczegółów opisu (DESCRIPTION)
+    function wyciagnijHaleZOpisu(description, fallbackLocation) {
+      if (description) {
+        var cleanDesc = odkodujICS(description);
+        var match = cleanDesc.match(/Hala:\s*([^\r\n]+)/i);
+        if (match && match[1] && match[1].trim().length > 3) {
+          return match[1].trim();
+        }
       }
-      // Pełny query z uniwersalnym parametrem search API dla Google Maps / Apple Maps
-      return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(loc);
+      var cleanLoc = odkodujICS(fallbackLocation);
+      return cleanLoc || 'Tarnowo Podgórne';
+    }
+
+    function zbudujLinkNawigacji(adresHali) {
+      return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(adresHali);
     }
 
     function zaladujDaneKalendarzy() {
@@ -802,6 +805,8 @@
                   currentEvent.summary = line.substring(8);
                 } else if (line.startsWith('LOCATION:')) {
                   currentEvent.location = line.substring(9);
+                } else if (line.startsWith('DESCRIPTION:')) {
+                  currentEvent.description = line.substring(12);
                 } else if (line.startsWith('DTSTART')) {
                   var parts = line.split(':');
                   if (parts.length > 1) {
@@ -854,18 +859,22 @@
               matchDatetime.textContent = dayName + ', ' + day + '.' + month + ' o ' + hours + ':' + minutes;
               matchOpponent.textContent = wyczyscNazwe(odkodujICS(mecz.summary));
 
-              // Prezentacja nazwy hali i adresu
-              var pelnaLokalizacja = odkodujICS(mecz.location);
-              if (pelnaLokalizacja) {
-                matchHall.textContent = '📍 ' + pelnaLokalizacja;
+              // Odczyt pełnego adresu hali z DESCRIPTION ("Hala: ...")
+              var dokladnaHala = wyciagnijHaleZOpisu(mecz.description, mecz.location);
+              if (dokladnaHala) {
+                matchHall.textContent = '📍 ' + dokladnaHala;
                 matchHall.style.display = 'block';
               } else {
                 matchHall.style.display = 'none';
               }
 
-              // Dom / Wyjazd
-              var locLower = pelnaLokalizacja.toLowerCase();
-              var isHome = locLower.indexOf('tarnowo') !== -1 || locLower.indexOf('zakrzewo') !== -1 || locLower.indexOf('ogrodowa') !== -1;
+              // Rozpoznanie Dom / Wyjazd
+              var hallLower = dokladnaHala.toLowerCase();
+              var locLower = (odkodujICS(mecz.location) || '').toLowerCase();
+              var isHome = hallLower.indexOf('tarnowo') !== -1 || 
+                           hallLower.indexOf('zakrzewo') !== -1 || 
+                           locLower.indexOf('tarnowo') !== -1 || 
+                           locLower.indexOf('zakrzewo') !== -1;
 
               if (isHome) {
                 venueBadge.textContent = "🏠 Dom";
@@ -875,8 +884,8 @@
                 venueBadge.className = "match-venue-badge";
               }
 
-              // Precyzyjny link nawigacji prosto do obiektu
-              matchBox.href = zbudujLinkNawigacji(mecz.location);
+              // Nawigacja prowadzi dokładnie pod adres wyciągnięty z "Hala:"
+              matchBox.href = zbudujLinkNawigacji(dokladnaHala);
               matchBox.style.display = 'block';
             }
           })
