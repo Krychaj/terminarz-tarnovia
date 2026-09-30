@@ -678,7 +678,7 @@
     </div>
 
     <!-- DYSKRETNY NUMER WERSJI -->
-    <div class="version-tag">1.1.3</div>
+    <div class="version-tag">1.1.4</div>
   </div>
 
   <script>
@@ -697,7 +697,7 @@
       }
     }
 
-    // Kliknięcie w przycisk hali: czyści adres w locie i otwiera precyzyjną nawigację
+    // Inteligentne czyszczenie w locie przy kliknięciu w przycisk hali
     function nawigujDoHali(btn) {
       var fullAddress = btn.dataset.fullAddress || '';
       var fallbackLocation = btn.dataset.fallbackLocation || '';
@@ -867,50 +867,60 @@
       return '';
     }
 
-    // Wyciąga dla Google Maps format: "Miejscowość, ulica numer"
+    // Przygotowuje optymalne zapytanie dla Google Maps w formacie: "Ulica Numer, Kod Miasto"
     function oczyscDoAdresuUlicy(pelnyAdres, fallbackLocation) {
       if (!pelnyAdres) {
         return wyczyscMiastoZNazwyKlubu(fallbackLocation);
       }
 
-      var czesci = pelnyAdres.split(',').map(function(s) { return s.trim(); });
-      var ulicaNumer = '';
-      var miasto = wyczyscMiastoZNazwyKlubu(pelnyAdres) || wyczyscMiastoZNazwyKlubu(fallbackLocation);
+      var raw = pelnyAdres;
 
-      // 1. Szukamy części z prefiksem ulicy
+      // 1. Wyciągnięcie kodu pocztowego (np. 62-080)
+      var kodMatch = raw.match(/\b\d{2}-\d{3}\b/);
+      var kodPocztowy = kodMatch ? kodMatch[0] : '';
+
+      // 2. Ustalenie miasta
+      var miasto = wyczyscMiastoZNazwyKlubu(raw) || wyczyscMiastoZNazwyKlubu(fallbackLocation);
+
+      // 3. Wyszukanie ulicy i numeru z odcięciem zbędnych prefiksów "ul." / "ulica"
+      var czesci = raw.split(',').map(function(s) { return s.trim(); });
+      var ulicaNumer = '';
+
       for (var i = 0; i < czesci.length; i++) {
         var c = czesci[i];
-        if (/^(ul\.|ulica|al\.|aleja|aleje|os\.|osiedle|pl\.|plac)\s+[\w\s.-]+\s+\d+[a-z]?$/i.test(c)) {
-          ulicaNumer = c;
-          break;
-        }
-      }
-
-      // 2. Szukamy nazwy ulicy z numerem bez prefiksu (np. "Szkolna 1")
-      if (!ulicaNumer) {
-        for (var j = czesci.length - 1; j >= 0; j--) {
-          var cj = czesci[j];
-          if (!/^(hala|sp|zst|lo|zs|zsp|posir|osir|scsir)\b/i.test(cj) && !/^\d{2}-\d{3}/.test(cj)) {
-            if (/^[A-ZĄĆĘŁŃÓŚŹŻa-ząćęłńóśźż\s.-]+\s+\d+[a-z]?$/i.test(cj)) {
-              ulicaNumer = cj;
-              break;
-            }
+        var mUlica = c.match(/(?:(?:ul\.|ulica|al\.|aleja|os\.|osiedle|pl\.|plac)\s+)?([A-ZĄĆĘŁŃÓŚŹŻa-ząćęłńóśźż0-9\s.-]+?\s+\d+[a-z]?)$/i);
+        if (mUlica) {
+          var kandydat = mUlica[1].trim();
+          // Odrzucenie nazw szkół i skrótów typu SP 11, ZSP 1
+          if (!/^(sp|zsp|zst|lo|zs|hala|arena)\b/i.test(kandydat)) {
+            ulicaNumer = kandydat;
+            break;
           }
         }
       }
 
-      // 3. Połączenie w zapytanie geolokalizacji: "Miasto, ulica numer"
-      if (miasto && ulicaNumer) {
-        if (ulicaNumer.toLowerCase().indexOf(miasto.toLowerCase()) !== -1) {
-          return ulicaNumer;
+      if (!ulicaNumer) {
+        var globalMatch = raw.match(/(?:ul\.|ulica|al\.|os\.|pl\.)\s+([A-ZĄĆĘŁŃÓŚŹŻa-ząćęłńóśźż0-9\s.-]+?\s+\d+[a-z]?)/i);
+        if (globalMatch) {
+          ulicaNumer = globalMatch[1].trim();
         }
-        return miasto + ', ' + ulicaNumer;
       }
 
-      if (ulicaNumer) return ulicaNumer;
-      if (miasto) return miasto;
+      // Usunięcie ewentualnego "ul." z zapytania dla Maps
+      if (ulicaNumer) {
+        ulicaNumer = ulicaNumer.replace(/^(ul\.|ulica)\s*/i, '').trim();
+      }
 
-      return pelnyAdres;
+      // 4. Połączenie w unikalną strukturę: "Ulica Numer, Kod Miasto"
+      var czescMiejscowosc = kodPocztowy ? (kodPocztowy + ' ' + miasto).trim() : miasto;
+
+      if (ulicaNumer && czescMiejscowosc) {
+        return ulicaNumer + ', ' + czescMiejscowosc;
+      }
+      if (ulicaNumer) return ulicaNumer;
+      if (czescMiejscowosc) return czescMiejscowosc;
+
+      return raw;
     }
 
     function zaladujDaneKalendarzy() {
@@ -1051,7 +1061,7 @@
               matchDatetime.textContent = dayName + ', ' + day + '.' + month + ' o ' + hours + ':' + minutes;
               matchOpponent.textContent = wyczyscNazwe(odkodujICS(mecz.summary));
 
-              // Pełny adres do wyświetlenia na kafelku
+              // Pełny adres pobrany z pola Description kalendarza
               var surowyAdresHali = wyciagnijCzystyAdres(mecz.description, mecz.location);
 
               var descLower = (odkodujICS(mecz.description) || '').toLowerCase();
@@ -1076,7 +1086,7 @@
 
               matchBox.style.display = 'block';
 
-              // Prezentacja: na kafelku pełna nazwa, a w data-attributes dane do wyczyszczenia na klik
+              // Prezentacja: na kafelku pełna nazwa, a w atrybutach data dane do czyszczenia GPS
               if (hallBtn && hallText) {
                 if (surowyAdresHali) {
                   hallText.textContent = surowyAdresHali;
