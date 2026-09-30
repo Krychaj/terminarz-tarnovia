@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Terminarze Tarnovia Basket</title>
 
-  <!-- METATAGI DLA APLIKACJI NA EKRANIE TELEFONU (iOS & ANDROID) -->
+  <!-- METATAGI DLA APLIKACJI MOBILNEJ NA EKRANIE TELEFONU -->
   <meta name="apple-mobile-web-app-title" content="Terminarze Tarnovia Basket">
   <meta name="application-name" content="Terminarze Tarnovia Basket">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -13,10 +13,10 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="theme-color" content="#1e3a8a">
 
-  <!-- IKONA DLA IPHONE / IPAD (APPLE TOUCH ICON) -->
+  <!-- IKONA DLA IPHONE / IPAD -->
   <link rel="apple-touch-icon" href="TARNOVIA_BASKET_LOGO_NEW_gora.png">
 
-  <!-- WEKTOROWA IKONA SPORTOWA W PASKU I DLA EKRANU GŁÓWNEGO (SVG DATA-URI) -->
+  <!-- WEKTOROWA IKONA SPORTOWA (SVG DATA-URI) -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%231e3a8a'/%3E%3Cstop offset='100%25' stop-color='%230f172a'/%3E%3C/linearGradient%3E%3ClinearGradient id='ball' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23fb923c'/%3E%3Cstop offset='100%25' stop-color='%23ea580c'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='128' fill='url(%23bg)'/%3E%3Ccircle cx='256' cy='256' r='180' fill='url(%23ball)' stroke='%23ffffff' stroke-width='10'/%3E%3Cpath d='M256 76v360M76 256h360M128 128c70 60 70 196 0 256M384 128c-70 60-70 196 0 256' stroke='%23ffffff' stroke-width='14' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
 
   <style>
@@ -245,14 +245,16 @@
       line-height: 1.35;
     }
 
-    /* Osobny boks lokalizacji - sama pinezka i adres */
+    /* Przycisk lokalizacji (button) - brak paska URL na dole w Chrome */
     .next-match-hall-box {
+      width: 100%;
       margin-top: 6px;
       background-color: #ffffff;
       border: 1px solid var(--border);
       padding: 8px 10px;
       border-radius: 6px;
       font-size: 11.5px;
+      font-family: inherit;
       display: flex;
       align-items: flex-start;
       gap: 6px;
@@ -261,6 +263,7 @@
       cursor: pointer;
       transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.1s ease;
       line-height: 1.35;
+      text-align: left;
     }
 
     .next-match-hall-box:hover {
@@ -281,7 +284,7 @@
       font-weight: 500;
     }
 
-    /* Przycisk akcji */
+    /* Przycisk subskrypcji */
     .btn {
       width: 100%;
       display: flex;
@@ -403,10 +406,10 @@
             <div class="next-match-datetime">Data i godzina</div>
             <div class="next-match-opponent">vs Rywal</div>
           </div>
-          <a class="next-match-hall-box" style="display:none;" target="_blank" rel="noopener" title="Nawiguj do hali">
+          <button type="button" class="next-match-hall-box" style="display:none;" onclick="nawigujDoHali(this)" title="Kliknij, aby nawigować do hali">
             <span class="hall-icon">📍</span>
             <span class="next-match-hall-text">Adres hali</span>
-          </a>
+          </button>
         </div>
         <button type="button" class="btn" onclick="subskrybuj('tarnovia_3lm.ics')">
           📅 Subskrybuj kalendarz
@@ -433,10 +436,10 @@
             <div class="next-match-datetime">Data i godzina</div>
             <div class="next-match-opponent">vs Rywal</div>
           </div>
-          <a class="next-match-hall-box" style="display:none;" target="_blank" rel="noopener" title="Nawiguj do hali">
+          <button type="button" class="next-match-hall-box" style="display:none;" onclick="nawigujDoHali(this)" title="Kliknij, aby nawigować do hali">
             <span class="hall-icon">📍</span>
             <span class="next-match-hall-text">Adres hali</span>
-          </a>
+          </button>
         </div>
         <button type="button" class="btn" onclick="subskrybuj('tarnovia_u17m.ics')">
           📅 Subskrybuj kalendarz
@@ -463,10 +466,10 @@
             <div class="next-match-datetime">Data i godzina</div>
             <div class="next-match-opponent">vs Rywal</div>
           </div>
-          <a class="next-match-hall-box" style="display:none;" target="_blank" rel="noopener" title="Nawiguj do hali">
+          <button type="button" class="next-match-hall-box" style="display:none;" onclick="nawigujDoHali(this)" title="Kliknij, aby nawigować do hali">
             <span class="hall-icon">📍</span>
             <span class="next-match-hall-text">Adres hali</span>
-          </a>
+          </button>
         </div>
         <button type="button" class="btn" onclick="subskrybuj('tarnovia_u15m.ics')">
           📅 Subskrybuj kalendarz
@@ -493,10 +496,10 @@
             <div class="next-match-datetime">Data i godzina</div>
             <div class="next-match-opponent">vs Rywal</div>
           </div>
-          <a class="next-match-hall-box" style="display:none;" target="_blank" rel="noopener" title="Nawiguj do hali">
+          <button type="button" class="next-match-hall-box" style="display:none;" onclick="nawigujDoHali(this)" title="Kliknij, aby nawigować do hali">
             <span class="hall-icon">📍</span>
             <span class="next-match-hall-text">Adres hali</span>
-          </a>
+          </button>
         </div>
         <button type="button" class="btn" onclick="subskrybuj('tarnovia_u14m_1.ics')">
           📅 Subskrybuj kalendarz
@@ -523,10 +526,10 @@
             <div class="next-match-datetime">Data i godzina</div>
             <div class="next-match-opponent">vs Rywal</div>
           </div>
-          <a class="next-match-hall-box" style="display:none;" target="_blank" rel="noopener" title="Nawiguj do hali">
+          <button type="button" class="next-match-hall-box" style="display:none;" onclick="nawigujDoHali(this)" title="Kliknij, aby nawigować do hali">
             <span class="hall-icon">📍</span>
             <span class="next-match-hall-text">Adres hali</span>
-          </a>
+          </button>
         </div>
         <button type="button" class="btn" onclick="subskrybuj('tarnovia_u14m_2.ics')">
           📅 Subskrybuj kalendarz
@@ -553,10 +556,10 @@
             <div class="next-match-datetime">Data i godzina</div>
             <div class="next-match-opponent">vs Rywal</div>
           </div>
-          <a class="next-match-hall-box" style="display:none;" target="_blank" rel="noopener" title="Nawiguj do hali">
+          <button type="button" class="next-match-hall-box" style="display:none;" onclick="nawigujDoHali(this)" title="Kliknij, aby nawigować do hali">
             <span class="hall-icon">📍</span>
             <span class="next-match-hall-text">Adres hali</span>
-          </a>
+          </button>
         </div>
         <button type="button" class="btn" onclick="subskrybuj('tarnovia_u13m.ics')">
           📅 Subskrybuj kalendarz
@@ -583,10 +586,10 @@
             <div class="next-match-datetime">Data i godzina</div>
             <div class="next-match-opponent">vs Rywal</div>
           </div>
-          <a class="next-match-hall-box" style="display:none;" target="_blank" rel="noopener" title="Nawiguj do hali">
+          <button type="button" class="next-match-hall-box" style="display:none;" onclick="nawigujDoHali(this)" title="Kliknij, aby nawigować do hali">
             <span class="hall-icon">📍</span>
             <span class="next-match-hall-text">Adres hali</span>
-          </a>
+          </button>
         </div>
         <button type="button" class="btn" onclick="subskrybuj('tarnovia_u12m.ics')">
           📅 Subskrybuj kalendarz
@@ -617,10 +620,10 @@
             <div class="next-match-datetime">Data i godzina</div>
             <div class="next-match-opponent">vs Rywal</div>
           </div>
-          <a class="next-match-hall-box" style="display:none;" target="_blank" rel="noopener" title="Nawiguj do hali">
+          <button type="button" class="next-match-hall-box" style="display:none;" onclick="nawigujDoHali(this)" title="Kliknij, aby nawigować do hali">
             <span class="hall-icon">📍</span>
             <span class="next-match-hall-text">Adres hali</span>
-          </a>
+          </button>
         </div>
         <button type="button" class="btn" onclick="subskrybuj('tarnovia_u16k.ics')">
           📅 Subskrybuj kalendarz
@@ -647,10 +650,10 @@
             <div class="next-match-datetime">Data i godzina</div>
             <div class="next-match-opponent">vs Rywal</div>
           </div>
-          <a class="next-match-hall-box" style="display:none;" target="_blank" rel="noopener" title="Nawiguj do hali">
+          <button type="button" class="next-match-hall-box" style="display:none;" onclick="nawigujDoHali(this)" title="Kliknij, aby nawigować do hali">
             <span class="hall-icon">📍</span>
             <span class="next-match-hall-text">Adres hali</span>
-          </a>
+          </button>
         </div>
         <button type="button" class="btn" onclick="subskrybuj('tarnovia_u14k.ics')">
           📅 Subskrybuj kalendarz
@@ -663,19 +666,19 @@
       <h2>Jak działa automatyczna synchronizacja meczów?</h2>
       <ul>
         <li>
-          <strong>Kiedy mecze pojawiają się w kalendarzu?</strong> Spotkanie trafia do Twojego telefonu wyłącznie w momencie, gdy na oficjalnej stronie WZKosz pojawi się zatwierdzona, dokładna godzina rozpoczęcia meczu[cite: 6]. Kolejki oczekujące na ustalenie terminu lub ze wstępną godziną 00:00 są celowo pomijane, aby nie wprowadzać w błąd i nie zaśmiecać terminarza[cite: 6].
+          <strong>Kiedy mecze pojawiają się w kalendarzu?</strong> Spotkanie trafia do Twojego telefonu wyłącznie w momencie, gdy na oficjalnej stronie WZKosz pojawi się zatwierdzona, dokładna godzina rozpoczęcia meczu[cite: 12]. Kolejki oczekujące na ustalenie terminu lub ze wstępną godziną 00:00 są celowo pomijane, aby nie wprowadzać w błąd i nie zaśmiecać terminarza[cite: 12].
         </li>
         <li>
-          <strong>Co w przypadku zmiany terminu lub sali?</strong> System automatycznie monitoruje stronę ligi WZKosz[cite: 6]. Jeżeli związek lub klub zmieni datę, przesunie godzinę meczu albo zaktualizuje adres hali, zmiana naniesie się w Twoim kalendarzu automatycznie w tle[cite: 6].
+          <strong>Co w przypadku zmiany terminu lub sali?</strong> System automatycznie monitoruje stronę ligi WZKosz[cite: 12]. Jeżeli związek lub klub zmieni datę, przesunie godzinę meczu albo zaktualizuje adres hali, zmiana naniesie się w Twoim kalendarzu automatycznie w tle[cite: 12].
         </li>
         <li>
-          <strong>Pełna wygoda rodzica:</strong> Wystarczy zasubskrybować kalendarz tylko raz na początku sezonu[cite: 6]. Nie musisz niczego klikać ani dodawać ponownie po zmianach terminów – Twój telefon zawsze wyświetli aktualny plan spotkań[cite: 6].
+          <strong>Pełna wygoda rodzica:</strong> Wystarczy zasubskrybować kalendarz tylko raz na początku sezonu[cite: 12]. Nie musisz niczego klikać ani dodawać ponownie po zmianach terminów – Twój telefon zawsze wyświetli aktualny plan spotkań[cite: 12].
         </li>
       </ul>
     </div>
 
     <!-- DYSKRETNY NUMER WERSJI -->
-    <div class="version-tag">1.1.1</div>
+    <div class="version-tag">1.1.3</div>
   </div>
 
   <script>
@@ -691,6 +694,17 @@
       } else {
         var webcalUrl = urlIcs.replace(/^https?:\/\//i, 'webcal://');
         window.location.href = webcalUrl;
+      }
+    }
+
+    // Kliknięcie w przycisk hali: czyści adres w locie i otwiera precyzyjną nawigację
+    function nawigujDoHali(btn) {
+      var fullAddress = btn.dataset.fullAddress || '';
+      var fallbackLocation = btn.dataset.fallbackLocation || '';
+      var cleanGpsQuery = oczyscDoAdresuUlicy(fullAddress, fallbackLocation);
+
+      if (cleanGpsQuery) {
+        window.open('https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(cleanGpsQuery), '_blank');
       }
     }
 
@@ -795,6 +809,24 @@
       if (lower.indexOf('poznan') !== -1 || lower.indexOf('poznań') !== -1) {
         return 'Poznań';
       }
+      if (lower.indexOf('września') !== -1 || lower.indexOf('wrzesnia') !== -1) {
+        return 'Września';
+      }
+      if (lower.indexOf('pleszew') !== -1) {
+        return 'Pleszew';
+      }
+      if (lower.indexOf('piła') !== -1 || lower.indexOf('pila') !== -1) {
+        return 'Piła';
+      }
+      if (lower.indexOf('kalisz') !== -1) {
+        return 'Kalisz';
+      }
+      if (lower.indexOf('grodzisk') !== -1) {
+        return 'Grodzisk Wielkopolski';
+      }
+      if (lower.indexOf('środa') !== -1 || lower.indexOf('sroda') !== -1) {
+        return 'Środa Wielkopolska';
+      }
 
       var clean = tekst
         .replace(/^(ks|uks|mks|ak|akm|mkk|bjp|ans|g-en|basket|enea)\s+/i, '')
@@ -835,6 +867,52 @@
       return '';
     }
 
+    // Wyciąga dla Google Maps format: "Miejscowość, ulica numer"
+    function oczyscDoAdresuUlicy(pelnyAdres, fallbackLocation) {
+      if (!pelnyAdres) {
+        return wyczyscMiastoZNazwyKlubu(fallbackLocation);
+      }
+
+      var czesci = pelnyAdres.split(',').map(function(s) { return s.trim(); });
+      var ulicaNumer = '';
+      var miasto = wyczyscMiastoZNazwyKlubu(pelnyAdres) || wyczyscMiastoZNazwyKlubu(fallbackLocation);
+
+      // 1. Szukamy części z prefiksem ulicy
+      for (var i = 0; i < czesci.length; i++) {
+        var c = czesci[i];
+        if (/^(ul\.|ulica|al\.|aleja|aleje|os\.|osiedle|pl\.|plac)\s+[\w\s.-]+\s+\d+[a-z]?$/i.test(c)) {
+          ulicaNumer = c;
+          break;
+        }
+      }
+
+      // 2. Szukamy nazwy ulicy z numerem bez prefiksu (np. "Szkolna 1")
+      if (!ulicaNumer) {
+        for (var j = czesci.length - 1; j >= 0; j--) {
+          var cj = czesci[j];
+          if (!/^(hala|sp|zst|lo|zs|zsp|posir|osir|scsir)\b/i.test(cj) && !/^\d{2}-\d{3}/.test(cj)) {
+            if (/^[A-ZĄĆĘŁŃÓŚŹŻa-ząćęłńóśźż\s.-]+\s+\d+[a-z]?$/i.test(cj)) {
+              ulicaNumer = cj;
+              break;
+            }
+          }
+        }
+      }
+
+      // 3. Połączenie w zapytanie geolokalizacji: "Miasto, ulica numer"
+      if (miasto && ulicaNumer) {
+        if (ulicaNumer.toLowerCase().indexOf(miasto.toLowerCase()) !== -1) {
+          return ulicaNumer;
+        }
+        return miasto + ', ' + ulicaNumer;
+      }
+
+      if (ulicaNumer) return ulicaNumer;
+      if (miasto) return miasto;
+
+      return pelnyAdres;
+    }
+
     function zaladujDaneKalendarzy() {
       var cards = document.querySelectorAll('.card[data-ics]');
       var dniTygodnia = ['Nd', 'Pn', 'Wt', 'Śr', 'Cz', 'Pt', 'Sb'];
@@ -849,7 +927,7 @@
         var venueBadge = card.querySelector('.match-venue-badge');
         var matchDatetime = card.querySelector('.next-match-datetime');
         var matchOpponent = card.querySelector('.next-match-opponent');
-        var hallBox = card.querySelector('.next-match-hall-box');
+        var hallBtn = card.querySelector('.next-match-hall-box');
         var hallText = card.querySelector('.next-match-hall-text');
 
         fetch(GIST_BASE + icsFile + '?t=' + new Date().getTime())
@@ -936,7 +1014,7 @@
                 statusBadge.textContent = '🟡 Oczekuje na godziny WZKosz';
               }
               if (matchBox) matchBox.style.display = 'none';
-              if (hallBox) hallBox.style.display = 'none';
+              if (hallBtn) hallBtn.style.display = 'none';
               return;
             }
 
@@ -973,10 +1051,11 @@
               matchDatetime.textContent = dayName + ', ' + day + '.' + month + ' o ' + hours + ':' + minutes;
               matchOpponent.textContent = wyczyscNazwe(odkodujICS(mecz.summary));
 
-              var czystyAdres = wyciagnijCzystyAdres(mecz.description, mecz.location);
+              // Pełny adres do wyświetlenia na kafelku
+              var surowyAdresHali = wyciagnijCzystyAdres(mecz.description, mecz.location);
 
               var descLower = (odkodujICS(mecz.description) || '').toLowerCase();
-              var hallLower = czystyAdres.toLowerCase();
+              var hallLower = surowyAdresHali.toLowerCase();
               var locLower = (odkodujICS(mecz.location) || '').toLowerCase();
 
               var isHome = descLower.indexOf('typ: home') !== -1 ||
@@ -997,13 +1076,15 @@
 
               matchBox.style.display = 'block';
 
-              if (hallBox && hallText) {
-                if (czystyAdres) {
-                  hallText.textContent = czystyAdres;
-                  hallBox.href = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(czystyAdres);
-                  hallBox.style.display = 'flex';
+              // Prezentacja: na kafelku pełna nazwa, a w data-attributes dane do wyczyszczenia na klik
+              if (hallBtn && hallText) {
+                if (surowyAdresHali) {
+                  hallText.textContent = surowyAdresHali;
+                  hallBtn.dataset.fullAddress = surowyAdresHali;
+                  hallBtn.dataset.fallbackLocation = mecz.location || '';
+                  hallBtn.style.display = 'flex';
                 } else {
-                  hallBox.style.display = 'none';
+                  hallBtn.style.display = 'none';
                 }
               }
             }
@@ -1014,7 +1095,7 @@
               statusBadge.textContent = '🟡 Oczekuje na godziny WZKosz';
             }
             if (matchBox) matchBox.style.display = 'none';
-            if (hallBox) hallBox.style.display = 'none';
+            if (hallBtn) hallBtn.style.display = 'none';
           });
       });
     }
