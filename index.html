@@ -266,7 +266,7 @@
       font-weight: 500;
     }
 
-    /* Styl przycisku bez href (ukrywa dymek statusu w Chrome) */
+    /* Przycisk akcji (brak href eliminuje dymek przeglądarki) */
     .btn {
       width: 100%;
       display: flex;
@@ -342,87 +342,16 @@
       color: var(--text-main);
     }
 
-    .changelog-wrapper {
-      margin-top: 20px;
-      display: flex;
-      justify-content: flex-end;
-      position: relative;
-    }
-
-    .changelog-details {
-      position: relative;
-      display: inline-block;
-    }
-
-    .changelog-summary {
+    /* Dyskretny numer wersji w stopce */
+    .version-tag {
+      margin-top: 24px;
+      text-align: right;
       font-size: 11px;
       color: var(--text-muted);
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
       letter-spacing: 0.5px;
-      opacity: 0.6;
-      cursor: pointer;
-      list-style: none;
+      opacity: 0.45;
       user-select: none;
-      transition: opacity 0.15s ease, color 0.15s ease;
-      text-align: right;
-    }
-
-    .changelog-summary::-webkit-details-marker {
-      display: none;
-    }
-
-    .changelog-summary:hover {
-      opacity: 1;
-      color: var(--primary);
-      text-decoration: underline;
-    }
-
-    .changelog-content {
-      position: absolute;
-      right: 0;
-      bottom: 24px;
-      width: 330px;
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 14px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      font-size: 12px;
-      line-height: 1.5;
-      z-index: 50;
-    }
-
-    .changelog-title {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--primary-dark);
-      margin-bottom: 10px;
-      padding-bottom: 6px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .changelog-item {
-      margin-bottom: 8px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid #f1f5f9;
-    }
-
-    .changelog-item:last-child {
-      margin-bottom: 0;
-      padding-bottom: 0;
-      border-bottom: none;
-    }
-
-    .changelog-ver {
-      font-weight: 700;
-      color: var(--primary-dark);
-      font-family: monospace;
-    }
-
-    .changelog-desc {
-      color: var(--text-muted);
-      margin-top: 2px;
     }
   </style>
 </head>
@@ -731,42 +660,14 @@
       </ul>
     </div>
 
-    <!-- STOPKA: KLIKALNY NUMER WERSJI Z HISTORIĄ -->
-    <div class="changelog-wrapper">
-      <details class="changelog-details" id="changelogDetails">
-        <summary class="changelog-summary">1.1.0</summary>
-        <div class="changelog-content">
-          <div class="changelog-title">Historia wersji</div>
-          <div class="changelog-item">
-            <div class="changelog-ver">1.1.0 (Aktualna)</div>
-            <div class="changelog-desc">
-              • Ukryto dymek z adresem URL w przeglądarce Chrome przy przycisku subskrypcji.<br>
-              • Zastąpiono linki &lt;a&gt; przyciskami &lt;button&gt; z bezpośrednią obsługą JS (webcal / Google Calendar).
-            </div>
-          </div>
-          <div class="changelog-item">
-            <div class="changelog-ver">1.0.9</div>
-            <div class="changelog-desc">
-              • Usunięto prefiks "Hala:" – prezentowana jest sama pinezka 📍 z pełnym adresem lub miastem.<br>
-              • Inteligentne czyszczenie lokalizacji ze skrótów i nazw klubów.
-            </div>
-          </div>
-          <div class="changelog-item">
-            <div class="changelog-ver">1.0.8</div>
-            <div class="changelog-desc">
-              • Naprawiono ignorowanie bloku VALARM.<br>
-              • Aktywowano kalendarze dla U12M i U16K.
-            </div>
-          </div>
-        </div>
-      </details>
-    </div>
+    <!-- DYSKRETNY NUMER WERSJI -->
+    <div class="version-tag">1.1.0</div>
   </div>
 
   <script>
     var GIST_BASE = "https://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/";
 
-    // Obsługa subskrypcji bez pokazywania dymka URL na dole ekranu
+    // Obsługa subskrypcji bez wyświetlania dymka przeglądarki
     function subskrybuj(plik) {
       var ua = navigator.userAgent || navigator.vendor || window.opera;
       var isAndroid = /android/i.test(ua);
@@ -775,18 +676,10 @@
       if (isAndroid) {
         window.location.href = "https://calendar.google.com/calendar/r?cid=" + encodeURIComponent(urlIcs);
       } else {
-        // Zamiana https:// na webcal:// dla aplikacji kalendarza iOS, macOS, Windows
         var webcalUrl = urlIcs.replace(/^https?:\/\//i, 'webcal://');
         window.location.href = webcalUrl;
       }
     }
-
-    document.addEventListener('click', function(event) {
-      var details = document.getElementById('changelogDetails');
-      if (details && details.open && !details.contains(event.target)) {
-        details.removeAttribute('open');
-      }
-    });
 
     function unfoldICS(text) {
       return text.replace(/\r\n[ \t]|\r[ \t]|\n[ \t]/g, '');
