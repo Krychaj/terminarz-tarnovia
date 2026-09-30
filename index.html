@@ -122,30 +122,16 @@
       margin-top: 3px;
     }
 
-    /* KROK 1: Link do terminarza ligi WZKosz z poziomu tytułu rocznika */
+    /* KROK 1: Czysty link bez strzałek */
     .card-title a {
       color: inherit;
       text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
       transition: color 0.15s ease;
     }
 
     .card-title a:hover {
       color: var(--primary);
       text-decoration: underline;
-    }
-
-    .ext-icon {
-      font-size: 13px;
-      color: var(--text-muted);
-      transition: transform 0.15s ease, color 0.15s ease;
-    }
-
-    .card-title a:hover .ext-icon {
-      color: var(--primary);
-      transform: translate(1px, -1px);
     }
 
     .card-desc {
@@ -189,7 +175,7 @@
       font-family: ui-monospace, monospace;
     }
 
-    /* KROK 2: Najbliższy mecz jako klikalny boks kierujący do meczu na WZKosz */
+    /* KROK 2: Boks meczu jako odnośnik do meczu na WZKosz */
     .next-match-box {
       margin-top: 12px;
       background-color: #f1f5f9;
@@ -223,9 +209,6 @@
       text-transform: uppercase;
       font-size: 10px;
       letter-spacing: 0.5px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
     }
 
     .match-venue-badge {
@@ -255,7 +238,7 @@
       line-height: 1.35;
     }
 
-    /* KROK 3: Kontener testowy dla pola DESCRIPTION z pliku ICS */
+    /* KROK 3: Pole testowe DESCRIPTION */
     .next-match-desc-box {
       margin-top: 10px;
       padding: 8px 10px;
@@ -272,8 +255,6 @@
       text-transform: uppercase;
       letter-spacing: 0.5px;
       margin-bottom: 4px;
-      display: flex;
-      justify-content: space-between;
     }
 
     .next-match-desc-content {
@@ -359,7 +340,6 @@
       color: var(--text-main);
     }
 
-    /* Changelog */
     .changelog-wrapper {
       margin-top: 20px;
       display: flex;
@@ -463,9 +443,7 @@
         <div class="card-header">
           <div class="card-category">Seniorzy</div>
           <div class="card-title">
-            <a href="https://wzkosz.pl/liga/119/terminarz_i_wyniki.html" target="_blank" rel="noopener" title="Otwórz terminarz WZKosz">
-              3 Liga Mężczyzn <span class="ext-icon">↗</span>
-            </a>
+            <a href="https://wzkosz.pl/liga/119/terminarz_i_wyniki.html" target="_blank" rel="noopener" title="Otwórz terminarz WZKosz">3 Liga Mężczyzn</a>
           </div>
           <div class="card-desc">Tarnovia Basket Tarnowo Podgórne</div>
           <div class="status-row">
@@ -474,7 +452,7 @@
           </div>
           <a class="next-match-box" style="display:none;" target="_blank" rel="noopener">
             <div class="next-match-header">
-              <div class="next-match-label">Najbliższy mecz ↗</div>
+              <div class="next-match-label">Najbliższy mecz</div>
               <div class="match-venue-badge">Dom/Wyjazd</div>
             </div>
             <div class="next-match-datetime">Data i godzina</div>
@@ -495,9 +473,7 @@
         <div class="card-header">
           <div class="card-category">Kadeci Starsi</div>
           <div class="card-title">
-            <a href="https://wzkosz.pl/liga/324/terminarz_i_wyniki.html" target="_blank" rel="noopener" title="Otwórz terminarz WZKosz">
-              U17 Mężczyzn <span class="ext-icon">↗</span>
-            </a>
+            <a href="https://wzkosz.pl/liga/324/terminarz_i_wyniki.html" target="_blank" rel="noopener" title="Otwórz terminarz WZKosz">U17 Mężczyzn</a>
           </div>
           <div class="card-desc">G-EN- Gaz Energia Tarnovia</div>
           <div class="status-row">
@@ -506,7 +482,7 @@
           </div>
           <a class="next-match-box" style="display:none;" target="_blank" rel="noopener">
             <div class="next-match-header">
-              <div class="next-match-label">Najbliższy mecz ↗</div>
+              <div class="next-match-label">Najbliższy mecz</div>
               <div class="match-venue-badge">Dom/Wyjazd</div>
             </div>
             <div class="next-match-datetime">Data i godzina</div>
@@ -527,9 +503,7 @@
         <div class="card-header">
           <div class="card-category">Kadeci</div>
           <div class="card-title">
-            <a href="https://wzkosz.pl/liga/123/terminarz_i_wyniki.html" target="_blank" rel="noopener" title="Otwórz terminarz WZKosz">
-              U15 Mężczyzn <span class="ext-icon">↗</span>
-            </a>
+            <a href="https://wzkosz.pl/liga/123/terminarz_i_wyniki.html" target="_blank" rel="noopener" title="Otwórz terminarz WZKosz">U15 Mężczyzn</a>
           </div>
           <div class="card-desc">G-EN- Gaz Energia Tarnovia</div>
           <div class="status-row">
@@ -538,7 +512,7 @@
           </div>
           <a class="next-match-box" style="display:none;" target="_blank" rel="noopener">
             <div class="next-match-header">
-              <div class="next-match-label">Najbliższy mecz ↗</div>
+              <div class="next-match-label">Najbliższy mecz</div>
               <div class="match-venue-badge">Dom/Wyjazd</div>
             </div>
             <div class="next-match-datetime">Data i godzina</div>
@@ -559,9 +533,7 @@
         <div class="card-header">
           <div class="card-category">Młodzicy Starsi</div>
           <div class="card-title">
-            <a href="https://wzkosz.pl/liga/124/terminarz_i_wyniki.html" target="_blank" rel="noopener" title="Otwórz terminarz WZKosz">
-              U14 Mężczyzn (I) <span class="ext-icon">↗</span>
-            </a>
+            <a href="https://wzkosz.pl/liga/124/terminarz_i_wyniki.html" target="_blank" rel="noopener" title="Otwórz terminarz WZKosz">U14 Mężczyzn (I)</a>
           </div>
           <div class="card-desc">G-EN- Gaz Energia Tarnovia I</div>
           <div class="status-row">
@@ -570,7 +542,7 @@
           </div>
           <a class="next-match-box" style="display:none;" target="_blank" rel="noopener">
             <div class="next-match-header">
-              <div class="next-match-label">Najbliższy mecz ↗</div>
+              <div class="next-match-label">Najbliższy mecz</div>
               <div class="match-venue-badge">Dom/Wyjazd</div>
             </div>
             <div class="next-match-datetime">Data i godzina</div>
@@ -591,9 +563,7 @@
         <div class="card-header">
           <div class="card-category">Młodzicy Starsi</div>
           <div class="card-title">
-            <a href="https://wzkosz.pl/liga/124/terminarz_i_wyniki.html" target="_blank" rel="noopener" title="Otwórz terminarz WZKosz">
-              U14 Mężczyzn (II) <span class="ext-icon">↗</span>
-            </a>
+            <a href="https://wzkosz.pl/liga/124/terminarz_i_wyniki.html" target="_blank" rel="noopener" title="Otwórz terminarz WZKosz">U14 Mężczyzn (II)</a>
           </div>
           <div class="card-desc">G-EN- Gaz Energia Tarnovia II</div>
           <div class="status-row">
@@ -602,7 +572,7 @@
           </div>
           <a class="next-match-box" style="display:none;" target="_blank" rel="noopener">
             <div class="next-match-header">
-              <div class="next-match-label">Najbliższy mecz ↗</div>
+              <div class="next-match-label">Najbliższy mecz</div>
               <div class="match-venue-badge">Dom/Wyjazd</div>
             </div>
             <div class="next-match-datetime">Data i godzina</div>
@@ -618,14 +588,12 @@
         </a>
       </div>
 
-      <!-- U13M -->
-      <div class="card" data-ics="tarnovia_u13m.ics" data-league-url="https://wzkosz.pl/liga/125/terminarz_i_wyniki.html">
+      <!-- U13M (KROK 1: Bezpośredni link do terminarza drużyny) -->
+      <div class="card" data-ics="tarnovia_u13m.ics" data-league-url="https://wzkosz.pl/liga/125/d/14766/g-en--gaz-energia-tarnovia-tarnowo-podgorne/terminarz.html">
         <div class="card-header">
           <div class="card-category">Młodzicy</div>
           <div class="card-title">
-            <a href="https://wzkosz.pl/liga/125/terminarz_i_wyniki.html" target="_blank" rel="noopener" title="Otwórz terminarz WZKosz">
-              U13 Mężczyzn <span class="ext-icon">↗</span>
-            </a>
+            <a href="https://wzkosz.pl/liga/125/d/14766/g-en--gaz-energia-tarnovia-tarnowo-podgorne/terminarz.html" target="_blank" rel="noopener" title="Otwórz terminarz drużyny na WZKosz">U13 Mężczyzn</a>
           </div>
           <div class="card-desc">G-EN- Gaz Energia Tarnovia</div>
           <div class="status-row">
@@ -634,7 +602,7 @@
           </div>
           <a class="next-match-box" style="display:none;" target="_blank" rel="noopener">
             <div class="next-match-header">
-              <div class="next-match-label">Najbliższy mecz ↗</div>
+              <div class="next-match-label">Najbliższy mecz</div>
               <div class="match-venue-badge">Dom/Wyjazd</div>
             </div>
             <div class="next-match-datetime">Data i godzina</div>
@@ -655,9 +623,7 @@
         <div class="card-header">
           <div class="card-category">Żacy</div>
           <div class="card-title">
-            <a href="https://wzkosz.pl/liga/126/terminarz_i_wyniki.html" target="_blank" rel="noopener" title="Otwórz terminarz WZKosz">
-              U12 Mężczyzn <span class="ext-icon">↗</span>
-            </a>
+            <a href="https://wzkosz.pl/liga/126/terminarz_i_wyniki.html" target="_blank" rel="noopener" title="Otwórz terminarz WZKosz">U12 Mężczyzn</a>
           </div>
           <div class="card-desc">G-EN- Gaz Energia Tarnovia</div>
           <div class="status-row">
@@ -678,9 +644,7 @@
         <div class="card-header">
           <div class="card-category female">Kadetki</div>
           <div class="card-title">
-            <a href="https://wzkosz.pl/liga/114/terminarz_i_wyniki.html" target="_blank" rel="noopener" title="Otwórz terminarz WZKosz">
-              U16 Kobiet <span class="ext-icon">↗</span>
-            </a>
+            <a href="https://wzkosz.pl/liga/114/terminarz_i_wyniki.html" target="_blank" rel="noopener" title="Otwórz terminarz WZKosz">U16 Kobiet</a>
           </div>
           <div class="card-desc">Korona-Tarnovia Zakrzewo</div>
           <div class="status-row">
@@ -692,14 +656,12 @@
         </a>
       </div>
 
-      <!-- U14K (KROK 1: U14 Kobiet jako link) -->
+      <!-- U14K -->
       <div class="card" data-ics="tarnovia_u14k.ics" data-league-url="https://wzkosz.pl/liga/116/terminarz_i_wyniki.html">
         <div class="card-header">
           <div class="card-category female">Młodziczki Starsze</div>
           <div class="card-title">
-            <a href="https://wzkosz.pl/liga/116/terminarz_i_wyniki.html" target="_blank" rel="noopener" title="Otwórz terminarz WZKosz">
-              U14 Kobiet <span class="ext-icon">↗</span>
-            </a>
+            <a href="https://wzkosz.pl/liga/116/terminarz_i_wyniki.html" target="_blank" rel="noopener" title="Otwórz terminarz WZKosz">U14 Kobiet</a>
           </div>
           <div class="card-desc">Korona-Tarnovia Zakrzewo</div>
           <div class="status-row">
@@ -708,7 +670,7 @@
           </div>
           <a class="next-match-box" style="display:none;" target="_blank" rel="noopener">
             <div class="next-match-header">
-              <div class="next-match-label">Najbliższy mecz ↗</div>
+              <div class="next-match-label">Najbliższy mecz</div>
               <div class="match-venue-badge">Dom/Wyjazd</div>
             </div>
             <div class="next-match-datetime">Data i godzina</div>
@@ -750,9 +712,9 @@
           <div class="changelog-item">
             <div class="changelog-ver">1.0.5 (Aktualna)</div>
             <div class="changelog-desc">
-              • Nazwa rocznika (np. U14 Kobiet) jest bezpośrednim odnośnikiem do terminarza ligi na wzkosz.pl.<br>
-              • Kliknięcie w boks meczu przekierowuje bezpośrednio do meczu na WZKosz.<br>
-              • Usunięto link „Nawiguj do hali” i wstawiono testowe pole z zawartością pola Description z pliku ICS.
+              • Nazwy roczników są czystymi linkami bezpośrednio do terminarza drużyny na wzkosz.pl.<br>
+              • Kliknięcie w boks najbliższego meczu przekierowuje do szczegółów spotkania na WZKosz.<br>
+              • Zastąpiono link nawigacji polem testowym wyświetlającym opis (Description) z kalendarza ICS.
             </div>
           </div>
           <div class="changelog-item">
@@ -846,7 +808,6 @@
       return summary;
     }
 
-    // Wyciąganie adresu do określenia Dom/Wyjazd
     function wyciagnijAdresHali(description, location) {
       var locClean = odkodujICS(location);
 
@@ -878,7 +839,7 @@
       return 'Tarnowo Podgórne';
     }
 
-    // Wyciąganie bezpośredniego linku do meczu z danych ICS
+    // Wyciąganie linku do meczu z kalendarza ICS
     function wyciagnijUrlMeczu(mecz, domyslnyLeagueUrl) {
       if (mecz.url && mecz.url.trim().startsWith('http')) {
         return mecz.url.trim();
@@ -916,7 +877,7 @@
         var descContentEl = card.querySelector('.next-match-desc-content');
         var descBox = card.querySelector('.next-match-desc-box');
 
-        // Blokujemy propagację kliknięcia w polu testowym (pozwala wygodnie zaznaczać i kopiować tekst bez otwierania linku)
+        // Zabezpieczenie: zaznaczanie tekstu w polu opisu nie aktywuje linku kafelka
         if (descBox && !descBox.dataset.bound) {
           descBox.dataset.bound = "1";
           descBox.addEventListener('click', function(e) {
@@ -1005,10 +966,10 @@
             var mecz = null;
             if (nadchodzace.length > 0) {
               mecz = nadchodzace[0];
-              matchLabel.innerHTML = 'Najbliższy mecz <span style="font-size:11px; opacity:0.6;">↗</span>';
+              matchLabel.textContent = 'Najbliższy mecz';
             } else {
               mecz = events[events.length - 1];
-              matchLabel.innerHTML = 'Ostatni mecz <span style="font-size:11px; opacity:0.6;">↗</span>';
+              matchLabel.textContent = 'Ostatni mecz';
             }
 
             if (mecz && mecz.dtstart) {
@@ -1022,7 +983,6 @@
               matchDatetime.textContent = dayName + ', ' + day + '.' + month + ' o ' + hours + ':' + minutes;
               matchOpponent.textContent = wyczyscNazwe(odkodujICS(mecz.summary));
 
-              // Określenie gospodarz / gość
               var dokladnyAdresHali = wyciagnijAdresHali(mecz.description, mecz.location);
               var hallLower = dokladnyAdresHali.toLowerCase();
               var locLower = (odkodujICS(mecz.location) || '').toLowerCase();
@@ -1040,16 +1000,16 @@
                 venueBadge.className = "match-venue-badge";
               }
 
-              // KROK 3: Wpisanie pola Description do kontenera testowego
+              // Wypisanie Description do pola testowego
               if (descContentEl) {
                 var surowyOpis = odkodujICS(mecz.description);
                 descContentEl.textContent = surowyOpis || '(Brak pola DESCRIPTION w tym zdarzeniu ICS)';
               }
 
-              // KROK 2: Przekierowanie boksu meczu do meczu na WZKosz
+              // Przekierowanie boksu meczu do strony meczu
               var matchUrl = wyciagnijUrlMeczu(mecz, leagueUrl);
               matchBox.href = matchUrl;
-              matchBox.title = "Kliknij, aby otworzyć mecz na wzkosz.pl";
+              matchBox.title = "Kliknij, aby otworzyć szczegóły meczu na wzkosz.pl";
               matchBox.style.display = 'block';
             }
           })
