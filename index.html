@@ -122,7 +122,6 @@
       margin-top: 3px;
     }
 
-    /* KROK 1: Czysty link bez strzałek */
     .card-title a {
       color: inherit;
       text-decoration: none;
@@ -175,7 +174,7 @@
       font-family: ui-monospace, monospace;
     }
 
-    /* KROK 2: Boks meczu kierujący do meczu na WZKosz */
+    /* 1. Boks meczu kończący się na 'vs nazwa drużyny' */
     .next-match-box {
       margin-top: 12px;
       background-color: #f1f5f9;
@@ -238,34 +237,38 @@
       line-height: 1.35;
     }
 
-    /* KROK 3: Pole testowe DESCRIPTION z pliku ICS */
-    .next-match-desc-box {
-      margin-top: 10px;
-      padding: 8px 10px;
-      background: #ffffff;
-      border: 1px dashed #cbd5e1;
+    /* 2. Osobne pole pod meczem z wyciągniętą halą */
+    .next-match-hall-box {
+      margin-top: 6px;
+      background-color: #ffffff;
+      border: 1px solid var(--border);
+      padding: 7px 10px;
       border-radius: 6px;
-      cursor: text;
-    }
-
-    .next-match-desc-title {
-      font-size: 9.5px;
-      font-weight: 700;
-      color: #64748b;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 4px;
-    }
-
-    .next-match-desc-content {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      font-size: 11px;
+      font-size: 11.5px;
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      text-decoration: none;
       color: #334155;
-      line-height: 1.45;
-      white-space: pre-wrap;
+      transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+      line-height: 1.35;
+    }
+
+    .next-match-hall-box:hover {
+      background-color: #f8fafc;
+      border-color: #cbd5e1;
+      color: var(--primary);
+    }
+
+    .hall-icon {
+      flex-shrink: 0;
+      font-size: 12px;
+      margin-top: 1px;
+    }
+
+    .next-match-hall-text {
       word-break: break-word;
-      max-height: 120px;
-      overflow-y: auto;
+      font-weight: 500;
     }
 
     .btn {
@@ -439,7 +442,7 @@
     <div class="section-title">🏀 Drużyny męskie</div>
     <div class="grid">
       <!-- 3LM -->
-      <div class="card" data-ics="tarnovia_3lm.ics" data-league-url="https://wzkosz.pl/liga/119/d/14751/tarnovia-basket-tarnowo-podgorne/terminarz.html">
+      <div class="card" data-ics="tarnovia_3lm.ics">
         <div class="card-header">
           <div class="card-category">Seniorzy</div>
           <div class="card-title">
@@ -457,10 +460,10 @@
             </div>
             <div class="next-match-datetime">Data i godzina</div>
             <div class="next-match-opponent">vs Rywal</div>
-            <div class="next-match-desc-box">
-              <div class="next-match-desc-title">ICS Description (test)</div>
-              <div class="next-match-desc-content"></div>
-            </div>
+          </a>
+          <a class="next-match-hall-box" style="display:none;" target="_blank" rel="noopener" title="Nawiguj do hali">
+            <span class="hall-icon">📍</span>
+            <span class="next-match-hall-text">Hala: Adres hali</span>
           </a>
         </div>
         <a class="btn" href="webcal://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_3lm.ics" onclick="subskrybuj(event, 'tarnovia_3lm.ics')">
@@ -469,7 +472,7 @@
       </div>
 
       <!-- U17M -->
-      <div class="card" data-ics="tarnovia_u17m.ics" data-league-url="https://wzkosz.pl/liga/324/d/14754/g-en--gaz-energia-tarnovia-tarnowo-podgorne/terminarz.html">
+      <div class="card" data-ics="tarnovia_u17m.ics">
         <div class="card-header">
           <div class="card-category">Kadeci Starsi</div>
           <div class="card-title">
@@ -487,10 +490,10 @@
             </div>
             <div class="next-match-datetime">Data i godzina</div>
             <div class="next-match-opponent">vs Rywal</div>
-            <div class="next-match-desc-box">
-              <div class="next-match-desc-title">ICS Description (test)</div>
-              <div class="next-match-desc-content"></div>
-            </div>
+          </a>
+          <a class="next-match-hall-box" style="display:none;" target="_blank" rel="noopener" title="Nawiguj do hali">
+            <span class="hall-icon">📍</span>
+            <span class="next-match-hall-text">Hala: Adres hali</span>
           </a>
         </div>
         <a class="btn" href="webcal://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u17m.ics" onclick="subskrybuj(event, 'tarnovia_u17m.ics')">
@@ -499,7 +502,7 @@
       </div>
 
       <!-- U15M -->
-      <div class="card" data-ics="tarnovia_u15m.ics" data-league-url="https://wzkosz.pl/liga/123/d/14758/g-en--gaz-energia-tarnovia-tarnowo-podgorne/terminarz.html">
+      <div class="card" data-ics="tarnovia_u15m.ics">
         <div class="card-header">
           <div class="card-category">Kadeci</div>
           <div class="card-title">
@@ -517,10 +520,10 @@
             </div>
             <div class="next-match-datetime">Data i godzina</div>
             <div class="next-match-opponent">vs Rywal</div>
-            <div class="next-match-desc-box">
-              <div class="next-match-desc-title">ICS Description (test)</div>
-              <div class="next-match-desc-content"></div>
-            </div>
+          </a>
+          <a class="next-match-hall-box" style="display:none;" target="_blank" rel="noopener" title="Nawiguj do hali">
+            <span class="hall-icon">📍</span>
+            <span class="next-match-hall-text">Hala: Adres hali</span>
           </a>
         </div>
         <a class="btn" href="webcal://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u15m.ics" onclick="subskrybuj(event, 'tarnovia_u15m.ics')">
@@ -529,7 +532,7 @@
       </div>
 
       <!-- U14M (I) -->
-      <div class="card" data-ics="tarnovia_u14m_1.ics" data-league-url="https://wzkosz.pl/liga/124/d/14762/g-en--gaz-energia-tarnovia-tarnowo-podgorne/terminarz.html">
+      <div class="card" data-ics="tarnovia_u14m_1.ics">
         <div class="card-header">
           <div class="card-category">Młodzicy Starsi</div>
           <div class="card-title">
@@ -547,10 +550,10 @@
             </div>
             <div class="next-match-datetime">Data i godzina</div>
             <div class="next-match-opponent">vs Rywal</div>
-            <div class="next-match-desc-box">
-              <div class="next-match-desc-title">ICS Description (test)</div>
-              <div class="next-match-desc-content"></div>
-            </div>
+          </a>
+          <a class="next-match-hall-box" style="display:none;" target="_blank" rel="noopener" title="Nawiguj do hali">
+            <span class="hall-icon">📍</span>
+            <span class="next-match-hall-text">Hala: Adres hali</span>
           </a>
         </div>
         <a class="btn" href="webcal://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u14m_1.ics" onclick="subskrybuj(event, 'tarnovia_u14m_1.ics')">
@@ -559,7 +562,7 @@
       </div>
 
       <!-- U14M (II) -->
-      <div class="card" data-ics="tarnovia_u14m_2.ics" data-league-url="https://wzkosz.pl/liga/124/d/14761/g-en--gaz-energia-tarnovia-ii-tarnowo-podgorne/terminarz.html">
+      <div class="card" data-ics="tarnovia_u14m_2.ics">
         <div class="card-header">
           <div class="card-category">Młodzicy Starsi</div>
           <div class="card-title">
@@ -577,10 +580,10 @@
             </div>
             <div class="next-match-datetime">Data i godzina</div>
             <div class="next-match-opponent">vs Rywal</div>
-            <div class="next-match-desc-box">
-              <div class="next-match-desc-title">ICS Description (test)</div>
-              <div class="next-match-desc-content"></div>
-            </div>
+          </a>
+          <a class="next-match-hall-box" style="display:none;" target="_blank" rel="noopener" title="Nawiguj do hali">
+            <span class="hall-icon">📍</span>
+            <span class="next-match-hall-text">Hala: Adres hali</span>
           </a>
         </div>
         <a class="btn" href="webcal://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u14m_2.ics" onclick="subskrybuj(event, 'tarnovia_u14m_2.ics')">
@@ -589,7 +592,7 @@
       </div>
 
       <!-- U13M -->
-      <div class="card" data-ics="tarnovia_u13m.ics" data-league-url="https://wzkosz.pl/liga/125/d/14766/g-en--gaz-energia-tarnovia-tarnowo-podgorne/terminarz.html">
+      <div class="card" data-ics="tarnovia_u13m.ics">
         <div class="card-header">
           <div class="card-category">Młodzicy</div>
           <div class="card-title">
@@ -607,10 +610,10 @@
             </div>
             <div class="next-match-datetime">Data i godzina</div>
             <div class="next-match-opponent">vs Rywal</div>
-            <div class="next-match-desc-box">
-              <div class="next-match-desc-title">ICS Description (test)</div>
-              <div class="next-match-desc-content"></div>
-            </div>
+          </a>
+          <a class="next-match-hall-box" style="display:none;" target="_blank" rel="noopener" title="Nawiguj do hali">
+            <span class="hall-icon">📍</span>
+            <span class="next-match-hall-text">Hala: Adres hali</span>
           </a>
         </div>
         <a class="btn" href="webcal://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u13m.ics" onclick="subskrybuj(event, 'tarnovia_u13m.ics')">
@@ -619,7 +622,7 @@
       </div>
 
       <!-- U12M -->
-      <div class="card" data-league-url="https://wzkosz.pl/liga/126/d/14767/g-en--gaz-energia-tarnovia-tarnowo-podgorne/terminarz.html">
+      <div class="card">
         <div class="card-header">
           <div class="card-category">Żacy</div>
           <div class="card-title">
@@ -640,7 +643,7 @@
     <div class="section-title">🏀 Drużyny żeńskie</div>
     <div class="grid">
       <!-- U16K -->
-      <div class="card" data-league-url="https://wzkosz.pl/liga/114/d/9779/korona-tarnovia-zakrzewo/terminarz.html">
+      <div class="card">
         <div class="card-header">
           <div class="card-category female">Kadetki</div>
           <div class="card-title">
@@ -657,7 +660,7 @@
       </div>
 
       <!-- U14K -->
-      <div class="card" data-ics="tarnovia_u14k.ics" data-league-url="https://wzkosz.pl/liga/116/d/9779/korona-tarnovia-zakrzewo/terminarz.html">
+      <div class="card" data-ics="tarnovia_u14k.ics">
         <div class="card-header">
           <div class="card-category female">Młodziczki Starsze</div>
           <div class="card-title">
@@ -675,10 +678,10 @@
             </div>
             <div class="next-match-datetime">Data i godzina</div>
             <div class="next-match-opponent">vs Rywal</div>
-            <div class="next-match-desc-box">
-              <div class="next-match-desc-title">ICS Description (test)</div>
-              <div class="next-match-desc-content"></div>
-            </div>
+          </a>
+          <a class="next-match-hall-box" style="display:none;" target="_blank" rel="noopener" title="Nawiguj do hali">
+            <span class="hall-icon">📍</span>
+            <span class="next-match-hall-text">Hala: Adres hali</span>
           </a>
         </div>
         <a class="btn" href="webcal://gist.githubusercontent.com/raw/4f5bb03b75ac66ce87bbf79c86fc8314/tarnovia_u14k.ics" onclick="subskrybuj(event, 'tarnovia_u14k.ics')">
@@ -706,15 +709,21 @@
     <!-- STOPKA: KLIKALNY NUMER WERSJI Z HISTORIĄ -->
     <div class="changelog-wrapper">
       <details class="changelog-details" id="changelogDetails">
-        <summary class="changelog-summary">1.0.5</summary>
+        <summary class="changelog-summary">1.0.6</summary>
         <div class="changelog-content">
           <div class="changelog-title">Historia wersji</div>
           <div class="changelog-item">
-            <div class="changelog-ver">1.0.5 (Aktualna)</div>
+            <div class="changelog-ver">1.0.6 (Aktualna)</div>
             <div class="changelog-desc">
-              • Nazwy roczników są bezpośrednimi, czystymi odnośnikami do terminarza konkretnej drużyny na wzkosz.pl.<br>
-              • Kliknięcie w boks najbliższego meczu przekierowuje do szczegółów spotkania na WZKosz.<br>
-              • Zastąpiono przycisk nawigacji testowym polem wyświetlającym pole Description z pliku kalendarza ICS.
+              • Kafelek meczu kończy się na rywalu ("vs [drużyna]") i prowadzi do meczu na wzkosz.pl.<br>
+              • Dodano osobne pole pod meczem prezentujące halę i adres wyciągnięte z pola Description kalendarza (z możliwością nawigacji).
+            </div>
+          </div>
+          <div class="changelog-item">
+            <div class="changelog-ver">1.0.5</div>
+            <div class="changelog-desc">
+              • Nazwy roczników są bezpośrednimi odnośnikami do terminarza konkretnej drużyny na wzkosz.pl.<br>
+              • Kliknięcie w boks najbliższego meczu przekierowuje do szczegółów spotkania na WZKosz.
             </div>
           </div>
           <div class="changelog-item">
@@ -739,15 +748,6 @@
               • Automatyczne zamykanie dymka historii wersji po kliknięciu w tło strony.
             </div>
           </div>
-          <div class="changelog-item">
-            <div class="changelog-ver">1.0.3</div>
-            <div class="changelog-desc">
-              • Statusy dostępności (aktywne / oczekujące na godziny).<br>
-              • Data i godzina ostatniej aktualizacji pliku kalendarza.<br>
-              • Podgląd najbliższego meczu bezpośrednio na kafelku drużyny.<br>
-              • Oznaczenie spotkania Dom (🏠) / Wyjazd (🚗).
-            </div>
-          </div>
         </div>
       </details>
     </div>
@@ -767,7 +767,6 @@
       }
     }
 
-    // Zamykanie changeloga po kliknięciu poza nim
     document.addEventListener('click', function(event) {
       var details = document.getElementById('changelogDetails');
       if (details && details.open && !details.contains(event.target)) {
@@ -808,38 +807,39 @@
       return summary;
     }
 
-    function wyciagnijAdresHali(description, location) {
-      var locClean = odkodujICS(location);
-
-      if (description) {
-        var raw = odkodujICS(description);
-        var lower = raw.toLowerCase();
-        var pos = lower.indexOf('hala:');
-        
-        if (pos !== -1) {
-          var tekstPoHala = raw.substring(pos + 5).trim();
-          var endRegex = /\n\s*(?:sędziowie|sedziowie|status|organizator|kolejka|mecz):/i;
-          var endMatch = tekstPoHala.match(endRegex);
-          var adresBlok = endMatch ? tekstPoHala.substring(0, endMatch.index) : tekstPoHala;
-
-          var kandydat = adresBlok.split(/[\r\n]+/)
-            .map(function(s) { return s.trim(); })
-            .filter(function(s) { return s.length > 0; })
-            .join(', ');
-
-          if (kandydat.length > 3 && !kandydat.match(/^(brak|tbd|-|\?)$/i)) {
-            return kandydat;
-          }
+    // Wyciąganie linii "Hala: ..." z pola DESCRIPTION
+    function wyciagnijLinieHala(description) {
+      if (!description) return '';
+      var raw = odkodujICS(description);
+      var lines = raw.split(/\r?\n/);
+      for (var i = 0; i < lines.length; i++) {
+        var line = lines[i].trim();
+        if (/^hala\s*:/i.test(line)) {
+          return line;
         }
       }
+      var match = raw.match(/hala\s*:[^\n\r]+/i);
+      if (match) {
+        return match[0].trim();
+      }
+      return '';
+    }
 
+    // Wyodrębnienie czystego adresu do celów nawigacji GPS
+    function wyczyscAdresDoNawigacji(liniaHala, location) {
+      if (liniaHala) {
+        var adres = liniaHala.replace(/^hala\s*:\s*/i, '').trim();
+        if (adres.length > 3 && !adres.match(/^(brak|tbd|-|\?)$/i)) {
+          return adres;
+        }
+      }
+      var locClean = odkodujICS(location);
       if (locClean && locClean.length > 2) {
         return locClean;
       }
       return 'Tarnowo Podgórne';
     }
 
-    // Wyciąganie bezpośredniego linku do meczu z danych ICS
     function wyciagnijUrlMeczu(mecz, domyslnyUrl) {
       if (mecz.url && mecz.url.trim().startsWith('http')) {
         return mecz.url.trim();
@@ -875,16 +875,8 @@
         var venueBadge = card.querySelector('.match-venue-badge');
         var matchDatetime = card.querySelector('.next-match-datetime');
         var matchOpponent = card.querySelector('.next-match-opponent');
-        var descContentEl = card.querySelector('.next-match-desc-content');
-        var descBox = card.querySelector('.next-match-desc-box');
-
-        // Blokowanie propagacji kliknięcia w polu tekstowym (swobodne zaznaczanie tekstu bez wywoływania linku)
-        if (descBox && !descBox.dataset.bound) {
-          descBox.dataset.bound = "1";
-          descBox.addEventListener('click', function(e) {
-            e.stopPropagation();
-          });
-        }
+        var hallBox = card.querySelector('.next-match-hall-box');
+        var hallText = card.querySelector('.next-match-hall-text');
 
         fetch(GIST_BASE + icsFile + '?t=' + new Date().getTime())
           .then(function(res) {
@@ -984,7 +976,10 @@
               matchDatetime.textContent = dayName + ', ' + day + '.' + month + ' o ' + hours + ':' + minutes;
               matchOpponent.textContent = wyczyscNazwe(odkodujICS(mecz.summary));
 
-              var dokladnyAdresHali = wyciagnijAdresHali(mecz.description, mecz.location);
+              // Wyciąganie linii "Hala:" per mecz
+              var liniaHala = wyciagnijLinieHala(mecz.description);
+              var dokladnyAdresHali = wyczyscAdresDoNawigacji(liniaHala, mecz.location);
+
               var hallLower = dokladnyAdresHali.toLowerCase();
               var locLower = (odkodujICS(mecz.location) || '').toLowerCase();
               var isHome = hallLower.indexOf('tarnowo') !== -1 || 
@@ -1001,21 +996,32 @@
                 venueBadge.className = "match-venue-badge";
               }
 
-              // Wypisanie pola Description z kalendarza ICS
-              if (descContentEl) {
-                var surowyOpis = odkodujICS(mecz.description);
-                descContentEl.textContent = surowyOpis || '(Brak pola DESCRIPTION w tym zdarzeniu ICS)';
-              }
-
-              // Przekierowanie boksu meczu do szczegółów spotkania na WZKosz
+              // Przekierowanie boksu meczu do meczu na WZKosz
               var matchUrl = wyciagnijUrlMeczu(mecz, fallbackUrl);
               matchBox.href = matchUrl;
               matchBox.title = "Kliknij, aby otworzyć szczegóły meczu na wzkosz.pl";
               matchBox.style.display = 'block';
+
+              // Prezentacja osobnego pola hali pod meczem
+              if (hallBox && hallText) {
+                if (liniaHala) {
+                  hallText.textContent = liniaHala;
+                  hallBox.href = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(dokladnyAdresHali);
+                  hallBox.style.display = 'flex';
+                } else if (mecz.location) {
+                  var locTxt = odkodujICS(mecz.location);
+                  hallText.textContent = 'Hala: ' + locTxt;
+                  hallBox.href = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(locTxt);
+                  hallBox.style.display = 'flex';
+                } else {
+                  hallBox.style.display = 'none';
+                }
+              }
             }
           })
           .catch(function() {
             if (matchBox) matchBox.style.display = 'none';
+            if (hallBox) hallBox.style.display = 'none';
           });
       });
     }
